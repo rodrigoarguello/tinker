@@ -149,8 +149,8 @@ una tarjeta.
 ## El motor
 
 Cascada de tres proveedores, cada uno entra solo si tiene su clave:
-`gemini → claude → openai`. El orden lo decidió la medición de focus en este
-mismo servidor (`focus/app/ia.py:36-64`): 3,2 s contra 6,2 y 24. En un juego
+`gemini → claude → openai`. El orden lo decidió una medición previa en este
+mismo servidor: 3,2 s contra 6,2 y 24. En un juego
 donde la espera se nota, eso manda.
 
 Medido acá, con la tarea de tinker (elegir cinco de un pozo de sesenta):

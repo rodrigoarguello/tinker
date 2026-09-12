@@ -1,7 +1,7 @@
 """La cascada de modelos: gemini -> claude -> openai.
 
-Portada de `/srv/02-onda/proyectos/focus/app/ia.py`, que es donde esta casa ya
-resolvio las tres formas de API, la salida estructurada y el orden. Lo que se
+Portada del adaptador de modelos de otro proyecto de esta casa, donde ya se
+resolvieron las tres formas de API, la salida estructurada y el orden. Lo que se
 cambio, y por que:
 
   · EL PRESUPUESTO ES OTRO. En focus el techo es nginx (60 s) porque hay una
@@ -31,8 +31,8 @@ from dataclasses import dataclass
 
 registro = logging.getLogger("tinker.modelo")
 
-# El orden lo decidio la medicion de focus en ESTE servidor (ver su ia.py,
-# lineas 36-64): gemini-3.5-flash-lite contesta en 3,2 s, claude-opus-5 en 6,2
+# El orden lo decidio una medicion previa de esta casa en ESTE servidor:
+# gemini-3.5-flash-lite contesta en 3,2 s, claude-opus-5 en 6,2
 # y gpt-5-mini en 24. Para un juego donde la espera se nota, el orden importa
 # mas que en cualquier otro uso de la casa.
 ORDEN = ("gemini", "claude", "openai")

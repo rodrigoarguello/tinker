@@ -1,6 +1,7 @@
 """La cascada de modelos, SIN GASTAR UNA SOLA LLAMADA.
 
-La tecnica es la de `/srv/02-onda/proyectos/focus/pruebas/ia.py`: se sustituyen
+La tecnica es la de las pruebas del mismo adaptador en otro proyecto de esta
+casa: se sustituyen
 los adaptadores por funciones que declaran quien habria contestado y se ponen
 claves de mentira en el entorno. Lo que se prueba es la DECISION --a quien se
 llama, en que orden, que pasa cuando uno falla-- que es donde estan los errores
