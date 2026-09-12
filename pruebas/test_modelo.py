@@ -1,11 +1,11 @@
 """La cascada de modelos, SIN GASTAR UNA SOLA LLAMADA.
 
 La tecnica es la de las pruebas del mismo adaptador en otro proyecto de esta
-casa: se sustituyen
-los adaptadores por funciones que declaran quien habria contestado y se ponen
-claves de mentira en el entorno. Lo que se prueba es la DECISION --a quien se
-llama, en que orden, que pasa cuando uno falla-- que es donde estan los errores
-caros; la forma de cada API ya la fijo focus llamandolas de verdad.
+casa: se sustituyen los adaptadores por funciones que declaran quien habria
+contestado, y se ponen claves de mentira en el entorno. Lo que se prueba es la
+DECISION --a quien se llama, en que orden, que pasa cuando uno falla-- que es
+donde estan los errores caros; la forma de cada API ya la fijo focus
+llamandolas de verdad.
 
 Las expectativas salen de `modelo.ORDEN` y no de nombres escritos a mano: el
 dia que el orden cambie, estas pruebas siguen diciendo la verdad.
