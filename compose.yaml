@@ -1,0 +1,85 @@
+# tinker — la gente arma la musica del evento desde el telefono.
+#
+# Dos servicios y ningun puerto publicado. Todo lo que entra, entra por el
+# proxy: es lo que permite que /admin exija sesion de Authelia mientras el
+# resto del sitio es deliberadamente abierto.
+
+name: tinker
+
+x-build: &construccion
+  context: .
+  additional_contexts:
+    diseno: /srv/01-infra/diseno
+
+services:
+  web:
+    build: *construccion
+    image: tinker:dev
+    container_name: tinker_web
+    restart: unless-stopped
+    # Las migraciones corren ANTES de uvicorn y en el mismo comando: si
+    # fallan, el contenedor no arranca. Es lo que se quiere -- una aplicacion
+    # contra un esquema viejo falla mucho peor, y mas tarde.
+    command: >
+      sh -c "alembic upgrade head &&
+             exec uvicorn app.main:app --host 0.0.0.0 --port 8000"
+    env_file: .env
+    environment:
+      # Un solo worker, igual que jau: el hub de WebSocket que empuja cada
+      # canción al televisor vive en la memoria de ESTE proceso. Con dos, la
+      # pantalla conectada al worker A no veria nada de lo que publica el B.
+      TINKER_BD: postgresql+psycopg://tinker_usuario:${POSTGRES_PASSWORD:?falta POSTGRES_PASSWORD en .env}@tinker_db:5432/tinker
+    networks:
+      - tinker_net
+      - proxy_net
+    depends_on:
+      db:
+        condition: service_healthy
+    deploy:
+      resources:
+        limits: { memory: 512M, cpus: "1.0" }
+        reservations: { memory: 128M }
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request;urllib.request.urlopen('http://127.0.0.1:8000/health')"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 40s
+
+  db:
+    image: postgres:18-alpine
+    container_name: tinker_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: tinker_usuario
+      POSTGRES_DB: tinker
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?falta POSTGRES_PASSWORD en .env}
+      POSTGRES_INITDB_ARGS: "--encoding=UTF8"
+      # PGDATA en un subdirectorio: PostgreSQL se niega a arrancar si su
+      # directorio de datos tiene permisos de grupo, y las ACLs de /srv se los
+      # dan. Asi lo crea el, con los 700 que exige.
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - /srv/05-datos/onda/tinker/postgres:/var/lib/postgresql/data
+    networks:
+      - tinker_net    # SOLO su isla. Nunca proxy_net.
+    deploy:
+      resources:
+        limits: { memory: 1G, cpus: "1.0" }
+        reservations: { memory: 256M }
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U tinker_usuario -d tinker"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    # Sin estas etiquetas, backup-bases NO la vuelca y la base queda sin backup.
+    labels:
+      backup.postgres: "true"
+      backup.usuario: "tinker_usuario"
+
+networks:
+  tinker_net:
+    name: tinker_net
+  proxy_net:
+    external: true

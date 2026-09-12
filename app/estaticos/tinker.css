@@ -1,0 +1,986 @@
+/* ══════════════════════════════════════════════════════════════════════════
+   tinker.css — la piel.
+
+   El sistema visual viene de radio.onda.study: la paleta cobalto, el relieve
+   de tres capas tintado de azul, el filo de luz cenital, la curva --ease y el
+   patron tactil (sube al hover, SE HUNDE al tocar). Lo que cambia es el
+   contenido: alla el heroe de cada tarjeta es la frecuencia; aca es el titulo
+   de la canción.
+
+   Dos cosas que NO se copiaron de radio, y conviene saber por que:
+
+     · Las tipografias se sirven desde este contenedor y no desde Google. La
+       CSP de este host es `default-src 'self'` y el navegador las bloquearia
+       en silencio. Ver fuentes.css.
+     · La grilla de dos columnas fijas. Alla el contenido es un numero corto;
+       aca son titulos de canciones, y en un telefono van en una columna.
+
+   El tema oscuro es el DEFECTO, al reves que en radio. Una fiesta es de noche
+   y la gente mira el telefono a media luz; el claro queda disponible igual
+   porque los tokens estan escritos en las dos variantes.
+   ══════════════════════════════════════════════════════════════════════════ */
+
+:root {
+  /* ── paleta (tema «senal» de radio) ── */
+  --bg:#F4F6FB;            --bg-tint:rgba(21,86,199,.05);
+  --surface:#FFFFFF;       --surface-2:#FAFAFC;
+  --ink:#1A1C2B;           --muted:#5F6779;   --faint:#68707F;
+  --line:#ECEDF3;          --line-2:#EDEEF3;
+  --accent:#1556C7;        --accent-2:#2E7BE6;
+  --accent-soft:#E1ECFB;   --accent-ink:#0E3F97;
+  --live:#1556C7;
+
+  /* ── forma ── */
+  --radius:20px; --radius-sm:14px; --radius-lg:30px; --pill:30px;
+
+  /* ── tipografia ── */
+  --font-display:"Bricolage Grotesque", system-ui, sans-serif;
+  --font-body:"Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  /* ── movimiento ── */
+  --ease:cubic-bezier(.22,.61,.36,1);
+
+  /* ── relieve ──
+     La mitad del look de radio esta en estas cinco variables. Tres capas
+     --contacto, media, ambiente-- y un filo de luz arriba. Y TINTADAS DE AZUL,
+     nunca negro: una sombra gris bajo una superficie azulada lee sucia. */
+  --d3-hi:inset 0 1.5px 0 rgba(255,255,255,.95);
+  --d3-sm:var(--d3-hi),
+    0 1px 2px rgba(16,52,124,.12),
+    0 5px 10px -4px rgba(16,52,124,.16),
+    0 14px 26px -12px rgba(16,52,124,.22);
+  --d3-md:var(--d3-hi),
+    0 2px 4px rgba(16,52,124,.13),
+    0 10px 18px -6px rgba(16,52,124,.2),
+    0 26px 44px -16px rgba(16,52,124,.3);
+  --d3-lg:var(--d3-hi),
+    0 3px 7px rgba(16,52,124,.15),
+    0 16px 30px -8px rgba(16,52,124,.24),
+    0 42px 72px -24px rgba(16,52,124,.4);
+  --d3-press:var(--d3-hi), 0 1px 2px rgba(16,52,124,.14), 0 2px 5px -2px rgba(16,52,124,.16);
+
+  --d3-grad:linear-gradient(180deg,#FFFFFF 0%,#F2F6FD 100%);
+  --d3-ctrl:linear-gradient(180deg,#FFFFFF 0%,#ECF2FB 100%);
+  --blue-orb:linear-gradient(158deg,#5C9BF2 0%,#1556C7 58%,#0E3F97 100%);
+
+  --borde-superficie:rgba(255,255,255,.7);
+  --borde-superficie-fuerte:rgba(255,255,255,.95);
+}
+
+/* La capa oscura. No es un tema aparte: conserva tipografia, radios y layout,
+   y solo cambia color. Es como lo resuelve radio y funciona. */
+html[data-oscuro="1"] {
+  --bg:#0E1219; --surface:#161B24; --surface-2:#1B212C;
+  --ink:#E8EDF7; --muted:#A3AEC2; --faint:#8892A6;
+  --line:#242C39; --line-2:#1E2530;
+  --accent:#4A8DF0; --accent-2:#7DB6FF;
+  --accent-soft:#16233A; --accent-ink:#E2EDFF;
+  color-scheme:dark;
+
+  --d3-grad:linear-gradient(180deg,#1A2029 0%,#151A22 100%);
+  --d3-ctrl:linear-gradient(180deg,#1E242E 0%,#171C25 100%);
+  /* El filo de luz se invierte: sobre una superficie oscura, un filo blanco al
+     95% no es un bisel, es una linea. */
+  --d3-hi:inset 0 1px 0 rgba(255,255,255,.055);
+  --d3-sm:var(--d3-hi), 0 2px 6px rgba(0,0,0,.4), 0 12px 24px -10px rgba(0,0,0,.55);
+  --d3-md:var(--d3-hi), 0 4px 10px rgba(0,0,0,.45), 0 22px 44px -14px rgba(0,0,0,.7);
+  --d3-lg:var(--d3-hi), 0 6px 14px rgba(0,0,0,.5), 0 36px 64px -18px rgba(0,0,0,.8);
+  --d3-press:var(--d3-hi), 0 1px 3px rgba(0,0,0,.5);
+
+  --borde-superficie:rgba(255,255,255,.07);
+  --borde-superficie-fuerte:rgba(255,255,255,.14);
+}
+
+* { box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+
+html, body { height:100%; }
+
+body {
+  margin:0;
+  font-family:var(--font-body);
+  background:var(--bg);
+  color:var(--ink);
+  -webkit-text-size-adjust:100%;
+  overflow-x:hidden;
+}
+
+/* Las dos capas fijas del fondo, como en radio: el degradado base y los blobs
+   de luz que respiran. En un telefono a oscuras es la diferencia entre una
+   aplicacion y un formulario. */
+body::before, body::after {
+  content:""; position:fixed; inset:0; pointer-events:none;
+}
+body::before {
+  z-index:-2;
+  background:linear-gradient(180deg,#E8F0FD 0%,#F1F5FC 48%,#E7EDF8 100%);
+}
+body::after {
+  z-index:-1;
+  background:
+    radial-gradient(560px 440px at 14% 6%,  rgba(46,123,230,.18), transparent 60%),
+    radial-gradient(600px 480px at 90% 0%,  rgba(21,86,199,.13), transparent 58%),
+    radial-gradient(520px 560px at 80% 96%, rgba(125,182,255,.16), transparent 60%);
+  animation:bgdrift 24s ease-in-out infinite alternate;
+}
+html[data-oscuro="1"] body::before {
+  background:linear-gradient(180deg,#111722 0%,#0E1219 55%,#0B0F16 100%);
+}
+html[data-oscuro="1"] body::after {
+  background:
+    radial-gradient(600px 480px at 12% 4%,  rgba(74,141,240,.18), transparent 62%),
+    radial-gradient(560px 460px at 92% 8%,  rgba(125,182,255,.12), transparent 60%),
+    radial-gradient(520px 560px at 78% 98%, rgba(21,86,199,.22), transparent 62%);
+}
+
+@keyframes bgdrift {
+  0%   { transform:translate3d(0,0,0) scale(1); }
+  50%  { transform:translate3d(0,-22px,0) scale(1.06); }
+  100% { transform:translate3d(12px,8px,0) scale(1.03); }
+}
+
+.oculto { display:none !important; }
+
+:focus-visible { outline:2.5px solid var(--accent); outline-offset:2px; border-radius:6px; }
+
+/* ═══════════════════════ EL TELEFONO · el juego ═══════════════════════ */
+
+.movil {
+  max-width:34rem; margin:0 auto;
+  padding:0 13px calc(84px + env(safe-area-inset-bottom));
+  display:flex; flex-direction:column; min-height:100%;
+}
+
+/* ── la cabecera: marca, elegidas y progreso ── */
+
+.cabecera {
+  position:sticky; top:0; z-index:5;
+  margin:0 -15px; padding:7px 15px 8px;
+  background:color-mix(in srgb, var(--bg) 86%, transparent);
+  backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--line);
+}
+
+.marca-fila { display:flex; align-items:center; gap:7px; padding:2px 0 7px; }
+
+.orbe-marca {
+  width:22px; height:22px; border-radius:50%;
+  background:var(--blue-orb);
+  box-shadow:0 6px 14px -4px rgba(14,63,151,.6), inset 0 1.5px 1px rgba(255,255,255,.45);
+  flex:none;
+}
+
+.marca {
+  font-family:var(--font-display);
+  font-size:13.5px; font-weight:800; letter-spacing:.4px;
+  margin:0;
+}
+
+.evento-nombre {
+  margin-left:auto; text-align:right;
+  font-size:10.5px; color:var(--muted);
+  max-width:60%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+}
+
+/* Las elegidas: carrusel horizontal para no comerse la altura del telefono. */
+.elegidas {
+  display:flex; gap:6px; overflow-x:auto; padding:1px 0 5px;
+  scrollbar-width:none; -ms-overflow-style:none;
+}
+.elegidas::-webkit-scrollbar { display:none; }
+
+.chip {
+  display:inline-flex; align-items:center; gap:7px; flex:none;
+  max-width:11.5rem;
+  background:var(--d3-ctrl);
+  border:1px solid var(--borde-superficie);
+  box-shadow:var(--d3-sm);
+  border-radius:var(--pill);
+  padding:4px 6px 4px 5px;
+  font-size:11.5px;
+  animation:chipEntra .34s var(--ease) backwards;
+}
+.chip .disco { width:18px; height:18px; font-size:9px; }
+.chip b { font-weight:600; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.chip button {
+  border:none; background:none; color:var(--faint);
+  font-size:15px; line-height:1; padding:0 2px; cursor:pointer; flex:none;
+}
+.chip button:active { color:var(--ink); }
+
+@keyframes chipEntra {
+  from { opacity:0; transform:translateY(8px) scale(.86); }
+  to   { opacity:1; transform:none; }
+}
+
+.progreso { display:flex; align-items:center; gap:10px; }
+
+.puntos { display:flex; gap:6px; }
+.punto {
+  width:8px; height:8px; border-radius:50%;
+  background:var(--line);
+  border:1px solid var(--borde-superficie);
+  transition:background var(--ease) .28s, transform var(--ease) .28s;
+}
+.punto.hecho { background:var(--accent); }
+.punto.actual {
+  background:var(--accent-2);
+  transform:scale(1.35);
+  animation:latePunto 2s ease-in-out infinite;
+}
+@keyframes latePunto {
+  0%,100% { box-shadow:0 0 0 0 color-mix(in srgb, var(--accent-2) 45%, transparent); }
+  70%     { box-shadow:0 0 0 7px transparent; }
+}
+
+.progreso span {
+  font-size:11px; color:var(--muted);
+  text-transform:uppercase; letter-spacing:.12em; font-weight:500;
+}
+.contador-elegidas {
+  margin-left:auto; font-size:12px; color:var(--muted);
+  font-variant-numeric:tabular-nums;
+}
+.contador-elegidas b { color:var(--ink); font-weight:600; }
+
+/* ── la pregunta ── */
+
+.pregunta {
+  font-family:var(--font-display);
+  font-size:20px; font-weight:700; letter-spacing:-.3px; line-height:1.2;
+  margin:13px 0 2px;
+}
+.pregunta-pie { margin:0 0 11px; color:var(--muted); font-size:12.5px; min-height:1.2em; }
+
+/* La línea del agente cambia entre tandas: un fundido corto avisa que cambió
+   sin robarle atención a las tarjetas, que son lo que hay que tocar. */
+.pregunta-pie.cambia { animation:pieEntra .42s var(--ease) both; }
+@keyframes pieEntra {
+  from { opacity:0; transform:translateY(-3px); }
+  to   { opacity:1; transform:none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pregunta-pie.cambia { animation:none; }
+}
+
+/* ── las cinco tarjetas ── */
+
+.tanda { display:grid; gap:7px; list-style:none; margin:0; padding:0; }
+
+.tarjeta {
+  display:flex; align-items:center; gap:11px;
+  width:100%; text-align:left;
+  font:inherit; color:inherit;
+  background:var(--d3-grad);
+  border:1px solid var(--borde-superficie);
+  border-radius:var(--radius-sm);
+  box-shadow:var(--d3-sm);
+  padding:9px 11px;
+  cursor:pointer;
+  position:relative; overflow:hidden;
+  transition:transform .15s var(--ease), box-shadow .15s var(--ease),
+             border-color .15s var(--ease), opacity .3s var(--ease);
+  animation:tarjetaEntra .44s var(--ease) backwards;
+}
+.tanda .tarjeta:nth-child(2) { animation-delay:.04s; }
+.tanda .tarjeta:nth-child(3) { animation-delay:.08s; }
+.tanda .tarjeta:nth-child(4) { animation-delay:.12s; }
+.tanda .tarjeta:nth-child(5) { animation-delay:.16s; }
+
+@keyframes tarjetaEntra {
+  from { opacity:0; transform:translateY(20px) scale(.94); }
+  60%  { opacity:1; }
+  to   { opacity:1; transform:none; }
+}
+
+@media (hover:hover) {
+  .tarjeta:hover {
+    transform:translateY(-4px);
+    box-shadow:var(--d3-lg);
+    border-color:var(--borde-superficie-fuerte);
+  }
+}
+/* Sube al pasar, SE HUNDE al tocar. Y el active acorta la transicion para que
+   el dedo sienta la respuesta en el momento, no 150 ms despues. */
+.tarjeta:active {
+  transform:scale(.97);
+  box-shadow:var(--d3-press);
+  transition:transform .09s var(--ease);
+}
+
+/* El disco: un orbe con el tono del genero y la inicial del titulo.
+   Existe porque el catalogo curado todavia no trae caratulas, y cinco
+   tarjetas de puro texto no son una aplicacion de musica. El dia que haya
+   Spotify, la caratula se pone encima y esto queda de respaldo. */
+.disco {
+  width:42px; height:42px; flex:none; border-radius:50%;
+  display:grid; place-items:center;
+  font-family:var(--font-display);
+  font-weight:800; font-size:17px; color:#fff;
+  background:
+    radial-gradient(circle at 34% 26%,
+      hsl(var(--tono,214) 85% 66%) 0%,
+      hsl(var(--tono,214) 78% 46%) 52%,
+      hsl(var(--tono,214) 82% 30%) 100%);
+  box-shadow:
+    inset 0 2px 2px rgba(255,255,255,.45),
+    inset 0 -6px 12px rgba(8,40,110,.4),
+    0 8px 16px -6px hsl(var(--tono,214) 70% 30% / .7);
+  position:relative; overflow:hidden;
+}
+/* Dos surcos finos en vez del agujero del vinilo. El agujero se probo primero
+   y tapaba la inicial justo en el centro: un disco perfecto en el que no se
+   leia nada. Los surcos dan la misma idea y dejan la letra libre. */
+.disco::before, .disco::after {
+  content:""; position:absolute; border-radius:50%;
+  border:1px solid rgba(255,255,255,.16);
+  pointer-events:none;
+}
+.disco::before { inset:11%; }
+.disco::after  { inset:23%; }
+.disco { text-shadow:0 1px 3px rgba(8,30,80,.55); }
+.disco > * , .disco { z-index:0; }
+.disco img { width:100%; height:100%; object-fit:cover; border-radius:50%; }
+
+.tarjeta .texto { min-width:0; flex:1; }
+.tarjeta .titulo {
+  display:block;
+  font-family:var(--font-display);
+  font-weight:600; font-size:15.5px; letter-spacing:-.2px; line-height:1.25;
+  overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+}
+.tarjeta .artista {
+  display:block; color:var(--muted); font-size:12px; margin-top:1px;
+  overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+}
+.tarjeta .elegir {
+  flex:none; font-size:9.5px; font-weight:600;
+  text-transform:uppercase; letter-spacing:.1em;
+  color:var(--accent);
+  padding:6px 9px; border-radius:var(--pill);
+  background:var(--accent-soft);
+}
+
+/* Al elegir: la tocada se marca y las otras se apagan y se van. */
+.tarjeta.elegida {
+  border-color:var(--accent);
+  box-shadow:var(--d3-md), 0 0 0 2px color-mix(in srgb, var(--accent) 55%, transparent);
+  animation:elegida .45s var(--ease);
+}
+.tarjeta.elegida .elegir { background:var(--accent); color:#fff; }
+@keyframes elegida {
+  0%   { transform:scale(.97); }
+  45%  { transform:scale(1.03); }
+  100% { transform:scale(1); }
+}
+.tanda.resolviendo .tarjeta:not(.elegida) {
+  opacity:0; transform:translateY(10px) scale(.96); pointer-events:none;
+}
+
+/* El esqueleto mientras se prepara la tanda siguiente. */
+.esqueleto {
+  display:flex; align-items:center; gap:11px;
+  border-radius:var(--radius-sm); padding:9px 11px;
+  background:var(--d3-grad);
+  border:1px solid var(--borde-superficie);
+  box-shadow:var(--d3-sm);
+  animation:respira 1.6s ease-in-out infinite;
+}
+.esqueleto i { width:42px; height:42px; border-radius:50%; background:var(--line); flex:none; }
+.esqueleto div { flex:1; }
+.esqueleto div u, .esqueleto div s {
+  display:block; height:11px; border-radius:6px; background:var(--line);
+  text-decoration:none;
+}
+.esqueleto div u { width:62%; margin-bottom:8px; }
+.esqueleto div s { width:38%; height:9px; }
+.esqueleto:nth-child(2) { animation-delay:.12s; }
+.esqueleto:nth-child(3) { animation-delay:.24s; }
+.esqueleto:nth-child(4) { animation-delay:.36s; }
+.esqueleto:nth-child(5) { animation-delay:.48s; }
+@keyframes respira { 0%,100% { opacity:.5; } 50% { opacity:.9; } }
+
+.preparando-pie {
+  text-align:center; color:var(--muted); font-size:12.5px; margin-top:14px;
+}
+
+/* ── el cierre ── */
+
+.cierre { text-align:center; padding:26px 0 0; animation:cierreEntra .6s var(--ease); }
+@keyframes cierreEntra {
+  from { opacity:0; transform:translateY(18px); }
+  to   { opacity:1; transform:none; }
+}
+.cierre h2 {
+  font-family:var(--font-display);
+  font-size:30px; font-weight:800; letter-spacing:-.6px; margin:14px 0 6px;
+}
+.cierre p { color:var(--muted); margin:0 0 4px; font-size:14.5px; }
+.cierre .evento { color:var(--ink); font-weight:600; }
+
+.mis-cinco { display:grid; gap:9px; margin:22px 0; text-align:left; }
+.mis-cinco .tarjeta { cursor:default; animation-delay:calc(var(--i,0) * 60ms); }
+.mis-cinco .tarjeta:active { transform:none; box-shadow:var(--d3-sm); }
+
+.boton {
+  display:inline-flex; align-items:center; justify-content:center; gap:8px;
+  border:none; border-radius:var(--pill);
+  background:var(--blue-orb); color:#fff;
+  font-family:var(--font-body); font-size:14.5px; font-weight:600;
+  padding:13px 22px; cursor:pointer; text-decoration:none;
+  box-shadow:0 18px 30px -12px rgba(14,63,151,.6);
+  transition:transform .15s var(--ease), box-shadow .15s var(--ease);
+}
+.boton:active { transform:scale(.96); box-shadow:var(--d3-press); }
+.boton.suave {
+  background:var(--d3-ctrl); color:var(--ink);
+  border:1px solid var(--borde-superficie); box-shadow:var(--d3-sm);
+}
+
+.top-evento { margin:26px 0 0; text-align:left; }
+.top-evento h3 {
+  font-family:var(--font-display); font-size:13px; font-weight:700;
+  text-transform:uppercase; letter-spacing:.1em; color:var(--muted);
+  margin:0 0 10px;
+}
+.top-evento ol { list-style:none; margin:0; padding:0; display:grid; gap:6px; }
+.top-evento li {
+  display:grid; grid-template-columns:1.6rem 1fr auto; align-items:center; gap:10px;
+  background:var(--surface-2); border:1px solid var(--line);
+  border-radius:var(--radius-sm); padding:9px 12px; font-size:13.5px;
+}
+.top-evento .puesto { color:var(--accent); font-weight:700; font-variant-numeric:tabular-nums; }
+.top-evento .votos { font-weight:700; font-variant-numeric:tabular-nums; }
+.top-evento .quien { color:var(--muted); }
+
+/* ── avisos y brindis ── */
+
+.aviso {
+  margin:18px 0; padding:16px;
+  border-radius:var(--radius-sm);
+  background:var(--surface-2); border:1px solid var(--line);
+  color:var(--muted); text-align:center; font-size:14px;
+}
+
+.brindis {
+  position:fixed; left:50%; bottom:calc(78px + env(safe-area-inset-bottom));
+  transform:translateX(-50%) translateY(14px);
+  background:var(--accent); color:#fff;
+  padding:11px 20px; border-radius:var(--pill);
+  font-size:14px; font-weight:600;
+  box-shadow:0 18px 36px -12px rgba(14,63,151,.7);
+  opacity:0; pointer-events:none; z-index:20;
+  transition:opacity .28s var(--ease), transform .28s var(--ease);
+}
+.brindis.visible { opacity:1; transform:translateX(-50%) translateY(0); }
+
+/* ═══════════════════════ EL TELEVISOR · la pantalla ═══════════════════════ */
+
+.tele {
+  min-height:100vh;
+  display:grid; grid-template-columns:26rem 1fr;
+  gap:var(--esp, 2.5rem);
+  padding:2.5rem;
+}
+
+.columna-qr {
+  display:flex; flex-direction:column; gap:1.4rem;
+  align-items:center; justify-content:center; text-align:center;
+}
+
+.marca-tele { display:flex; align-items:center; gap:12px; }
+.marca-tele .orbe-marca { width:38px; height:38px; }
+.marca-tele h1 {
+  font-family:var(--font-display); font-size:28px; font-weight:800;
+  letter-spacing:.5px; margin:0;
+}
+
+.qr {
+  background:#fff; padding:1.1rem; border-radius:var(--radius-lg);
+  width:19rem; height:19rem; display:grid; place-items:center;
+  box-shadow:var(--d3-lg), 0 0 60px -10px rgba(46,123,230,.45);
+  border:1px solid var(--borde-superficie);
+}
+.qr img { width:100%; height:100%; }
+
+.invitacion { font-size:20px; font-weight:600; margin:0; }
+.direccion {
+  font-family:var(--font-display); font-weight:700;
+  color:var(--accent-2); font-size:19px; margin:0;
+  letter-spacing:-.2px;
+}
+
+.escena {
+  display:flex; flex-direction:column; gap:1.6rem; min-width:0;
+  justify-content:center;
+  /* El lugar de la tarjeta que irrumpe. Sin esto tapaba las ultimas filas del
+     ranking justo cuando alguien las estaba mirando. */
+  padding-bottom:9rem;
+}
+
+.escena header h2 {
+  font-family:var(--font-display);
+  font-size:clamp(30px, 3.6vw, 46px); font-weight:800;
+  letter-spacing:-1px; line-height:1.1; margin:0;
+}
+.escena .lugar { color:var(--muted); font-size:20px; margin:.4rem 0 0; }
+
+.cifras { display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; }
+.cifra {
+  background:var(--d3-grad);
+  border:1px solid var(--borde-superficie);
+  border-radius:var(--radius);
+  box-shadow:var(--d3-sm);
+  padding:1.3rem; text-align:center;
+}
+.cifra b {
+  display:block; font-family:var(--font-display);
+  font-size:clamp(30px, 3.4vw, 46px); font-weight:800; line-height:1;
+  letter-spacing:-1px; font-variant-numeric:tabular-nums;
+}
+.cifra span {
+  display:block; margin-top:.45rem;
+  color:var(--muted); text-transform:uppercase;
+  letter-spacing:.14em; font-size:11.5px; font-weight:500;
+}
+
+.escena h3 {
+  font-family:var(--font-display); font-size:14px; font-weight:700;
+  text-transform:uppercase; letter-spacing:.12em; color:var(--muted);
+  margin:0 0 .8rem;
+}
+
+.top { list-style:none; margin:0; padding:0; display:grid; gap:.5rem; }
+.top li {
+  display:grid; grid-template-columns:2.4rem auto 1fr auto;
+  align-items:center; gap:1rem;
+  background:var(--d3-grad);
+  border:1px solid var(--borde-superficie);
+  border-radius:var(--radius-sm);
+  box-shadow:var(--d3-sm);
+  padding:.7rem 1.1rem;
+  font-size:clamp(16px, 1.5vw, 21px);
+  transition:transform .3s var(--ease);
+}
+.top li .puesto {
+  font-family:var(--font-display); font-weight:800;
+  color:var(--accent-2); font-variant-numeric:tabular-nums;
+}
+.top li .disco { width:42px; height:42px; font-size:17px; }
+.top li .que { min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.top li .quien { color:var(--muted); font-size:.78em; }
+.top li .votos {
+  font-family:var(--font-display); font-weight:800;
+  font-variant-numeric:tabular-nums; color:var(--ink);
+}
+/* Cuando una canción sube, destella. Es como se entera el salon de que su
+   voto llego, sin que nadie tenga que mirar el numero. */
+.top li.destella { animation:destello 1.4s var(--ease); }
+@keyframes destello {
+  0%   { outline:0 solid transparent; outline-offset:3px; }
+  18%  { outline:3px solid color-mix(in srgb, var(--accent-2) 65%, transparent); outline-offset:3px; }
+  100% { outline:0 solid transparent; outline-offset:3px; }
+}
+
+/* Las barritas del espectro: el movimiento que dice «esto esta vivo». */
+.eq { display:inline-flex; align-items:flex-end; gap:3px; height:18px; }
+.eq i {
+  width:3px; border-radius:2px; background:var(--accent-2);
+  animation:eqbar 1.1s ease-in-out infinite;
+}
+.eq i:nth-child(1) { height:40%; animation-delay:0s; }
+.eq i:nth-child(2) { height:75%; animation-delay:.14s; }
+.eq i:nth-child(3) { height:55%; animation-delay:.28s; }
+.eq i:nth-child(4) { height:90%; animation-delay:.42s; }
+@keyframes eqbar { 0%,100% { transform:scaleY(.35); } 50% { transform:scaleY(1); } }
+
+/* ── Sonando ahora ────────────────────────────────────────────────────────
+   El circulo que se cierra: la columna del QR muestra que lo que la gente
+   eligio ES lo que esta sonando. Vive fuera de la rotacion de escenas porque
+   lo que suena no puede desaparecer catorce segundos.
+
+   No hay barra de progreso a proposito: exigiria una segunda llamada a
+   Spotify cada quince segundos y la app esta con la cuota limitada. El
+   ecualizador dice «esto esta vivo» y no cuesta un solo pedido. */
+.sonando {
+  width:100%;
+  background:var(--d3-grad);
+  border:1px solid var(--borde-superficie);
+  border-radius:var(--radius);
+  box-shadow:var(--d3-sm);
+  padding:1.1rem 1.2rem; text-align:left;
+  animation:aparece .5s ease both;
+}
+.sonando h4 {
+  display:flex; align-items:center; gap:9px;
+  font-size:13px; font-weight:700; letter-spacing:1.4px; text-transform:uppercase;
+  color:var(--muted); margin:0 0 .9rem;
+}
+.sonando .eq { height:14px; }
+
+.sonando .ahora { display:flex; align-items:center; gap:.85rem; min-width:0; }
+.sonando .disco { width:54px; height:54px; font-size:21px; }
+.sonando .que-suena { min-width:0; }
+.sonando .titulo {
+  font-family:var(--font-display); font-weight:800; font-size:19px;
+  letter-spacing:-.3px; margin:0; line-height:1.2;
+  overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+}
+.sonando .artista {
+  color:var(--muted); font-size:15px; margin:.15rem 0 0;
+  overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+}
+/* La linea que cierra el circulo. Sin esto el reproductor es un reproductor
+   cualquiera; con esto, el salon ve que eso suena PORQUE lo eligieron. */
+.sonando .elegida {
+  color:var(--accent-2); font-size:13px; font-weight:700; margin:.3rem 0 0;
+}
+
+.sonando .siguen {
+  list-style:none; margin:1rem 0 0; padding:.9rem 0 0;
+  border-top:1px solid var(--borde-superficie);
+  display:flex; flex-direction:column; gap:.55rem;
+}
+.sonando .siguen li {
+  display:flex; align-items:baseline; gap:.5rem; min-width:0;
+  font-size:14px; color:var(--muted);
+}
+.sonando .siguen .orden {
+  font-variant-numeric:tabular-nums; font-weight:700;
+  color:var(--accent-2); opacity:.65; flex:none;
+}
+.sonando .siguen .que {
+  overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+}
+.sonando .siguen .que b { color:var(--ink); font-weight:600; }
+
+.boton-parlante {
+  width:100%; margin-top:.9rem;
+  display:flex; align-items:center; justify-content:center; gap:.5rem;
+  background:var(--accent); color:#fff; border:0;
+  border-radius:var(--radius-sm); padding:.7rem 1rem;
+  font-family:inherit; font-size:14px; font-weight:700; cursor:pointer;
+  box-shadow:0 8px 20px -8px var(--accent);
+  transition:transform .12s ease, filter .12s ease;
+}
+.boton-parlante:hover { filter:brightness(1.08); }
+.boton-parlante:active { transform:translateY(1px); }
+.boton-parlante .triangulo {
+  width:0; height:0; border-style:solid;
+  border-width:5px 0 5px 8px; border-color:transparent transparent transparent #fff;
+}
+.boton-parlante.sonando-aca {
+  background:transparent; color:var(--accent-2);
+  border:1px solid var(--borde-superficie); box-shadow:none; cursor:default;
+}
+.boton-parlante.sonando-aca .triangulo { display:none; }
+.nota-parlante { color:var(--faint); font-size:12px; margin:.6rem 0 0; line-height:1.45; }
+
+@keyframes aparece { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:none; } }
+
+/* La tarjeta que irrumpe cuando alguien elige. Es el corazon del televisor:
+   si esto no se nota desde el fondo del salon, no sirve. */
+.irrumpe {
+  position:fixed; inset:auto 0 2.5rem 0;
+  display:grid; place-items:center; pointer-events:none; z-index:20;
+}
+.tarjeta-viva {
+  background:var(--blue-orb); color:#fff;
+  border-radius:var(--radius-lg);
+  padding:1.6rem 3rem; text-align:center; max-width:80vw;
+  box-shadow:0 40px 80px -20px rgba(14,63,151,.85), inset 0 2px 2px rgba(255,255,255,.4);
+  transform:translateY(150%);
+  transition:transform .7s var(--ease);
+}
+.tarjeta-viva.entra { transform:translateY(0); }
+.tarjeta-viva .rotulo {
+  text-transform:uppercase; letter-spacing:.22em;
+  font-size:14px; font-weight:600; opacity:.92; margin:0;
+}
+.tarjeta-viva .cancion {
+  font-family:var(--font-display);
+  font-size:clamp(30px, 4vw, 52px); font-weight:800;
+  letter-spacing:-1px; line-height:1.1; margin:.7rem 0 .3rem;
+}
+.tarjeta-viva .artista { font-size:clamp(17px, 1.8vw, 24px); opacity:.9; margin:0; }
+.tarjeta-viva .cuantos { margin:1rem 0 0; font-size:17px; font-weight:600; }
+
+.pie-tele {
+  position:fixed; right:1.6rem; bottom:1rem;
+  display:flex; align-items:center; gap:.55rem;
+  color:var(--muted); font-size:12.5px;
+  text-transform:uppercase; letter-spacing:.1em;
+}
+.pulso {
+  width:.55rem; height:.55rem; border-radius:50%;
+  background:var(--accent-2);
+  animation:latido 2s ease-in-out infinite;
+}
+@keyframes latido {
+  0%,100% { box-shadow:0 0 0 0 color-mix(in srgb, var(--accent-2) 45%, transparent); }
+  70%     { box-shadow:0 0 0 9px transparent; }
+}
+.pulso.frio { background:#e5484d; animation:none; }
+
+@media (max-width:64rem) {
+  .tele { grid-template-columns:1fr; padding:1.5rem; }
+  .qr { width:13rem; height:13rem; }
+  .cifra b { font-size:30px; }
+}
+
+/* ═══════════════════════ /admin · sobrio a proposito ═══════════════════════ */
+
+.admin { max-width:62rem; margin:0 auto; padding:2rem 1rem 4rem; }
+.admin h1 { font-family:var(--font-display); font-size:26px; font-weight:800; letter-spacing:-.4px; margin:.2rem 0 1.4rem; }
+.admin h2 { font-family:var(--font-display); font-size:17px; font-weight:700; margin:0 0 1rem; }
+.panel {
+  background:var(--surface); border:1px solid var(--line);
+  border-radius:var(--radius); padding:1.3rem; margin-bottom:1.4rem;
+  box-shadow:var(--d3-sm);
+}
+.tabla { width:100%; border-collapse:collapse; font-size:13.5px; }
+.tabla th, .tabla td { text-align:left; padding:.7rem .6rem; border-bottom:1px solid var(--line); vertical-align:top; }
+.tabla th { color:var(--muted); font-weight:500; text-transform:uppercase; font-size:11px; letter-spacing:.08em; }
+.campo { display:grid; gap:.25rem; margin-bottom:.8rem; }
+.campo span { font-size:12px; color:var(--muted); }
+.campo input, .campo select, .campo textarea {
+  font-family:inherit; font-size:16px;
+  padding:.55rem .7rem; border-radius:var(--radius-sm);
+  border:1px solid var(--line); background:var(--surface-2); color:var(--ink);
+}
+.campo textarea { min-height:11rem; font-size:13.5px; line-height:1.6; resize:vertical; }
+.estado { border-radius:var(--pill); padding:3px 10px; font-size:11px; font-weight:600; white-space:nowrap; }
+.estado.previo  { background:#fffbeb; color:#b45309; }
+.estado.en_vivo { background:#ecfcf5; color:#12805c; }
+.estado.cerrado { background:var(--line); color:var(--muted); }
+html[data-oscuro="1"] .estado.previo  { background:#3a2c0c; color:#fcd34d; }
+html[data-oscuro="1"] .estado.en_vivo { background:#0c3326; color:#6ad9b0; }
+
+/* ═══════════════════════ movimiento reducido ═══════════════════════
+   Quien pidio menos movimiento no pierde ninguna informacion: todo lo que se
+   mueve aca tiene ademas su version en texto --el rotulo de la tarjeta, el
+   numero del contador, la palabra «en vivo»--. */
+@media (prefers-reduced-motion:reduce) {
+  *, *::before, *::after {
+    animation-duration:.001ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:.001ms !important;
+    scroll-behavior:auto !important;
+  }
+}
+
+
+/* ── piezas chicas que antes vivian en atributos style ──
+   No es prolijidad: `style="..."` en el HTML lo DESCARTA la CSP de este host
+   (`style-src 'self'`) sin un solo error a la vista. */
+.orbe-marca.grande { width:56px; height:56px; margin:0 auto; display:block; }
+.pie-boton { margin-top:1.5rem; }
+.cierre.portada { padding-top:16vh; }
+.admin .ayuda { color:var(--muted); font-size:13px; margin:0 0 1rem; }
+.escena h3 { display:flex; align-items:center; gap:.6rem; }
+.escena h3 .eq { height:14px; }
+
+
+/* ── marcar varias de una tanda ──
+   De cinco tarjetas te pueden gustar tres. La marcada se queda en su lugar
+   con el tilde: sacarla de la pantalla al tocarla --lo que hacia la primera
+   version-- se llevaba puestas las otras dos que ibas a marcar. */
+.tarjeta.marcada {
+  border-color:var(--accent);
+  box-shadow:var(--d3-md), 0 0 0 2px color-mix(in srgb, var(--accent) 50%, transparent);
+}
+.tarjeta.marcada .elegir { background:var(--accent); color:#fff; }
+
+/* El buscador de grupos: plegado, porque es la excepcion y no el camino. */
+.buscador-grupo { margin-top:var(--onda-esp-6, 1.5rem); }
+.buscador-grupo > summary {
+  cursor:pointer; color:var(--muted); font-size:13.5px;
+  padding:10px 0; list-style:none; text-align:center;
+}
+.buscador-grupo > summary::-webkit-details-marker { display:none; }
+
+.buscador-grupo[open] > summary { color:var(--ink); }
+
+.buscador { position:relative; margin:10px 0 14px; }
+.buscador input {
+  width:100%;
+  /* 16px o iOS hace zoom solo al enfocar. */
+  font-size:16px; font-family:inherit;
+  padding:13px 15px;
+  border-radius:var(--radius-sm);
+  border:1px solid var(--borde-superficie);
+  background:var(--surface-2); color:var(--ink);
+  box-shadow:inset 0 2px 5px rgba(16,52,124,.1);
+}
+.buscador input:focus { outline:2px solid var(--accent); outline-offset:1px; }
+
+
+/* ── la barra de acciones, FIJA abajo ──
+   Antes los botones vivían debajo de las cinco tarjetas, así que para pasar de
+   tanda había que scrollear hasta el final. El gesto principal del juego no
+   puede estar fuera de la pantalla. */
+.acciones {
+  position:fixed; left:0; right:0; bottom:0; z-index:6;
+  display:flex; gap:8px; align-items:center;
+  padding:9px 13px calc(9px + env(safe-area-inset-bottom));
+  background:color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+  border-top:1px solid var(--line);
+}
+.acciones .boton { flex:1; padding:11px 14px; font-size:14px; }
+.acciones .boton.secundaria { flex:0 0 auto; padding:11px 15px; }
+
+/* El buscador de grupos, al final y discreto: es la excepción, no el camino. */
+.buscador-grupo { margin-top:18px; }
+.buscador-grupo > summary { padding:8px 0; font-size:13px; }
+.buscador-grupo .tarjeta { margin-bottom:0; }
+
+/* Pantallas cortas --un iPhone con la barra de Safari a la vista-- aprietan
+   un poco más: la diferencia entre ver cinco tarjetas y ver cuatro. */
+@media (max-height: 780px) {
+  .pregunta { font-size:18px; margin:10px 0 2px; }
+  .pregunta-pie { display:none; }
+  .tanda { gap:6px; }
+  .tarjeta { padding:8px 10px; }
+  .disco { width:38px; height:38px; font-size:15px; }
+  .tarjeta .titulo { font-size:15px; }
+}
+
+
+/* El icono del buscador, de TRAZO y no un emoji: un emoji sin fuente
+   instalada es un cuadrito vacío, y en un televisor o un navegador viejo pasa.
+   El lenguaje visual de la casa es de trazo (ver radio.onda.study). */
+.buscador-grupo > summary {
+  display:flex; align-items:center; justify-content:center; gap:7px;
+}
+.buscador-grupo > summary svg { width:15px; height:15px; opacity:.8; }
+
+
+/* ═══════════ el buscador de grupos, con protagonismo ═══════════ */
+
+/* Abierto, el buscador se despega: fondo propio, borde de acento y el campo
+   grande. Cerrado es una línea discreta. La diferencia importa porque es el
+   único momento del juego en que aparece un teclado. */
+.buscador-grupo[open] {
+  background:var(--surface-2);
+  border:1px solid color-mix(in srgb, var(--accent) 35%, var(--line));
+  border-radius:var(--radius);
+  padding:4px 12px 12px;
+  box-shadow:var(--d3-sm);
+  margin-bottom:6px;
+}
+.buscador-grupo[open] > summary {
+  color:var(--ink); font-weight:600;
+  border-bottom:1px solid var(--line);
+  margin-bottom:10px;
+}
+
+.buscador { display:flex; gap:8px; align-items:stretch; margin:4px 0 0; }
+.buscador input { flex:1; }
+
+/* La lupa al lado del campo: es el botón que BAJA EL TECLADO, y por eso está
+   tan a mano. Grande a propósito — se toca con el pulgar sin apuntar. */
+.lupa {
+  flex:none; width:46px;
+  display:grid; place-items:center;
+  border:none; border-radius:var(--radius-sm);
+  background:var(--blue-orb); color:#fff;
+  cursor:pointer;
+  box-shadow:0 8px 16px -8px rgba(14,63,151,.7);
+  transition:transform .09s var(--ease);
+}
+.lupa:active { transform:scale(.94); }
+.lupa svg { width:20px; height:20px; }
+
+/* El panel de resultados: lo que se está buscando manda en la pantalla. */
+.resultados-grupo {
+  margin-top:12px;
+  animation:resultadosEntran .34s var(--ease);
+  /* La cabecera es sticky y mide ~120px: sin este margen, `scrollIntoView`
+     deja el título del panel justo debajo de ella y no se ve qué se buscó. */
+  scroll-margin-top:130px;
+}
+@keyframes resultadosEntran {
+  from { opacity:0; transform:translateY(10px); }
+  to   { opacity:1; transform:none; }
+}
+.resultados-grupo h3 {
+  font-family:var(--font-display);
+  font-size:13px; font-weight:700;
+  text-transform:uppercase; letter-spacing:.09em;
+  color:var(--accent-2);
+  margin:0 0 8px;
+}
+.resultados-grupo .aviso { margin:8px 0; text-align:left; font-size:13px; }
+
+.tanda li { list-style:none; }
+
+/* ══════════════════════════════════════════════════════════════════════
+   EL CEREBRO DEL PÚBLICO
+
+   La tercera escena de la pantalla del salón. Las otras dos cuentan lo que la
+   gente eligió --un ranking, unos artistas--; ésta cuenta lo que el sistema
+   ENTENDIÓ de eso, que es lo único que no se puede ver de ninguna otra forma.
+
+   Las barras se mueven con CADA elección, no cada quince segundos: el momento
+   en que alguien toca una tarjeta y una barra crece a cuatro metros de ahí es
+   todo el producto en un segundo.
+   ══════════════════════════════════════════════════════════════════════ */
+
+.cerebro { display:grid; gap:26px; margin-top:18px; }
+
+.cerebro .generos { display:grid; gap:13px; }
+
+.cerebro .genero {
+  display:grid; grid-template-columns:minmax(130px, 22%) 1fr;
+  align-items:center; gap:16px;
+}
+.cerebro .genero .que {
+  font-family:var(--font-display);
+  font-size:clamp(17px, 1.6vw, 24px); font-weight:600;
+  letter-spacing:-.2px; color:var(--ink);
+}
+
+/* El riel es el hueco; la barra de adentro es el dato. Que el hueco se vea
+   siempre --y no sólo cuando hay valor-- es lo que deja leer la proporción. */
+.cerebro .riel,
+.medidor .riel {
+  height:clamp(14px, 1.5vw, 20px);
+  border-radius:var(--pill);
+  background:var(--accent-soft);
+  box-shadow:inset 0 1px 3px rgba(0,0,0,.22);
+  overflow:hidden;
+}
+.cerebro .riel > i,
+.medidor .riel > i {
+  display:block; height:100%; width:0;
+  border-radius:var(--pill);
+  background:linear-gradient(90deg, var(--accent) 0%, var(--accent-2) 100%);
+  /* Larga a propósito: a cuatro metros, una barra que salta no se lee como un
+     cambio, se lee como un parpadeo. Crecer despacio SE VE crecer. */
+  transition:width .9s var(--ease);
+}
+
+.cerebro .medidores {
+  display:grid; grid-template-columns:1fr 1fr; gap:20px;
+}
+.medidor { display:grid; gap:7px; }
+.rotulo-medidor {
+  font-size:clamp(11px, .9vw, 13px); font-weight:700;
+  letter-spacing:.9px; text-transform:uppercase; color:var(--muted);
+}
+
+.cerebro .aprendido {
+  margin:0;
+  font-family:var(--font-display);
+  font-size:clamp(19px, 2vw, 30px); font-weight:600;
+  letter-spacing:-.4px; line-height:1.25; color:var(--ink);
+}
+/* El mismo destello que ya usa el ranking cuando una canción sube: un cambio
+   en el salón se anuncia igual en toda la pantalla. */
+.cerebro .aprendido.destella { animation:destello 1.4s var(--ease); }
+
+@media (prefers-reduced-motion: reduce) {
+  .cerebro .riel > i,
+  .medidor .riel > i { transition:none; }
+  .cerebro .aprendido.destella { animation:none; }
+}

@@ -1,0 +1,18 @@
+# Pegar en /srv/01-infra/authelia/configuration.yml, bajo access_control.rules
+#
+# EL ORDEN IMPORTA: Authelia aplica la PRIMERA regla que coincide.
+#
+# Este caso es distinto a los demas sistemas: tinker es PUBLICO. La regla no
+# protege el sitio, protege la administracion -- son las unicas dos rutas cuyo
+# .conf consulta a Authelia (`= /admin` y `^~ /api/admin/`). El QR, las dos
+# paginas y la API de pedidos nunca la consultan, asi que esta regla no las
+# alcanza ni podria.
+#
+# Sin `resources` a proposito: si manana alguien agrega authelia-authrequest a
+# otra ruta de este host, que caiga bajo dos factores en vez de quedar fuera
+# de toda regla.
+
+    - domain: 'tinker.onda.study'
+      policy: 'two_factor'
+      subject:
+        - 'group:admin'

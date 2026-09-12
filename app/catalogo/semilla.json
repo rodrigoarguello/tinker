@@ -1,0 +1,896 @@
+[
+ {
+  "id": "loc-0001",
+  "titulo": "De música ligera",
+  "artista": "Soda Stereo",
+  "genero": "rock"
+ },
+ {
+  "id": "loc-0002",
+  "titulo": "Persiana americana",
+  "artista": "Soda Stereo",
+  "genero": "rock"
+ },
+ {
+  "id": "loc-0003",
+  "titulo": "Nada personal",
+  "artista": "Soda Stereo",
+  "genero": "rock"
+ },
+ {
+  "id": "loc-0004",
+  "titulo": "Matador",
+  "artista": "Los Fabulosos Cadillacs",
+  "genero": "rock"
+ },
+ {
+  "id": "loc-0005",
+  "titulo": "El satánico Dr. Cadillac",
+  "artista": "Los Fabulosos Cadillacs",
+  "genero": "rock"
+ },
+ {
+  "id": "loc-0006",
+  "titulo": "Vasos vacíos",
+  "artista": "Los Fabulosos Cadillacs",
+  "genero": "rock"
+ },
+ {
+  "id": "loc-0007",
+  "titulo": "Mal bicho",
+  "artista": "Los Fabulosos Cadillacs",
+  "genero": "rock"
+ },
+ {
+  "id": "loc-0008",
+  "titulo": "Lamento boliviano",
+  "artista": "Enanitos Verdes",
+  "genero": "rock"
+ },
+ {
+  "id": "loc-0009",
+  "titulo": "Te vi en un tren",
+  "artista": "Enanitos Verdes",
+  "genero": "rock"
+ },
+ {
+  "id": "loc-0010",
+  "titulo": "La muralla verde",
+  "artista": "Enanitos Verdes",
+  "genero": "rock"
+ },
+ {
+  "id": "loc-0011",
+  "titulo": "Rasguña las piedras",
+  "artista": "Sui Generis",
+  "genero": "rock"
+ },
+ {
+  "id": "loc-0012",
+  "titulo": "Seminare",
+  "artista": "Serú Girán",
+  "genero": "rock"
+ },
+ {
+  "id": "loc-0013",
+  "titulo": "Los dinosaurios",
+  "artista": "Charly García",
+  "genero": "rock"
+ },
+ {
+  "id": "loc-0014",
+  "titulo": "Demoliendo hoteles",
+  "artista": "Charly García",
+  "genero": "rock"
+ },
+ {
+  "id": "loc-0015",
+  "titulo": "Yo vengo a ofrecer mi corazón",
+  "artista": "Fito Páez",
+  "genero": "romantica"
+ },
+ {
+  "id": "loc-0016",
+  "titulo": "Mariposa tecknicolor",
+  "artista": "Fito Páez",
+  "genero": "rock"
+ },
+ {
+  "id": "loc-0017",
+  "titulo": "El amor después del amor",
+  "artista": "Fito Páez",
+  "genero": "romantica"
+ },
+ {
+  "id": "loc-0018",
+  "titulo": "Un osito de peluche de Taiwán",
+  "artista": "Fito Páez",
+  "genero": "rock"
+ },
+ {
+  "id": "loc-0019",
+  "titulo": "Cactus",
+  "artista": "Gustavo Cerati",
+  "genero": "rock"
+ },
+ {
+  "id": "loc-0020",
+  "titulo": "Crimen",
+  "artista": "Gustavo Cerati",
+  "genero": "rock"
+ },
+ {
+  "id": "loc-0021",
+  "titulo": "Puente",
+  "artista": "Gustavo Cerati",
+  "genero": "rock"
+ },
+ {
+  "id": "loc-0022",
+  "titulo": "Flaca",
+  "artista": "Andrés Calamaro",
+  "genero": "rock"
+ },
+ {
+  "id": "loc-0023",
+  "titulo": "Loco",
+  "artista": "Andrés Calamaro",
+  "genero": "rock"
+ },
+ {
+  "id": "loc-0024",
+  "titulo": "Crímenes perfectos",
+  "artista": "Andrés Calamaro",
+  "genero": "rock"
+ },
+ {
+  "id": "loc-0025",
+  "titulo": "Tan solo",
+  "artista": "Divididos",
+  "genero": "rock"
+ },
+ {
+  "id": "loc-0026",
+  "titulo": "Qué ves",
+  "artista": "Divididos",
+  "genero": "rock"
+ },
+ {
+  "id": "loc-0027",
+  "titulo": "La rubia tarada",
+  "artista": "Sumo",
+  "genero": "rock"
+ },
+ {
+  "id": "loc-0028",
+  "titulo": "Un poco de amor francés",
+  "artista": "Babasónicos",
+  "genero": "rock"
+ },
+ {
+  "id": "loc-0029",
+  "titulo": "Irresponsables",
+  "artista": "Babasónicos",
+  "genero": "rock"
+ },
+ {
+  "id": "loc-0030",
+  "titulo": "Desandé",
+  "artista": "Babasónicos",
+  "genero": "rock"
+ },
+ {
+  "id": "loc-0031",
+  "titulo": "Zapatillas",
+  "artista": "Los Piojos",
+  "genero": "rock"
+ },
+ {
+  "id": "loc-0032",
+  "titulo": "Verano del 92",
+  "artista": "Los Piojos",
+  "genero": "rock"
+ },
+ {
+  "id": "loc-0033",
+  "titulo": "Ya no sos igual",
+  "artista": "Los Piojos",
+  "genero": "rock"
+ },
+ {
+  "id": "loc-0034",
+  "titulo": "El farolito",
+  "artista": "Andrés Calamaro",
+  "genero": "romantica"
+ },
+ {
+  "id": "loc-0035",
+  "titulo": "Jijiji",
+  "artista": "Patricio Rey y sus Redonditos de Ricota",
+  "genero": "rock"
+ },
+ {
+  "id": "loc-0036",
+  "titulo": "Todo un palo",
+  "artista": "Patricio Rey y sus Redonditos de Ricota",
+  "genero": "rock"
+ },
+ {
+  "id": "loc-0037",
+  "titulo": "Mi enfermedad",
+  "artista": "Andrés Calamaro",
+  "genero": "romantica"
+ },
+ {
+  "id": "loc-0038",
+  "titulo": "Sweet Child O' Mine",
+  "artista": "Guns N' Roses",
+  "genero": "80-90"
+ },
+ {
+  "id": "loc-0039",
+  "titulo": "November Rain",
+  "artista": "Guns N' Roses",
+  "genero": "80-90"
+ },
+ {
+  "id": "loc-0040",
+  "titulo": "Livin' on a Prayer",
+  "artista": "Bon Jovi",
+  "genero": "80-90"
+ },
+ {
+  "id": "loc-0041",
+  "titulo": "It's My Life",
+  "artista": "Bon Jovi",
+  "genero": "80-90"
+ },
+ {
+  "id": "loc-0042",
+  "titulo": "Every Breath You Take",
+  "artista": "The Police",
+  "genero": "80-90"
+ },
+ {
+  "id": "loc-0043",
+  "titulo": "Billie Jean",
+  "artista": "Michael Jackson",
+  "genero": "80-90"
+ },
+ {
+  "id": "loc-0044",
+  "titulo": "Beat It",
+  "artista": "Michael Jackson",
+  "genero": "80-90"
+ },
+ {
+  "id": "loc-0045",
+  "titulo": "Smooth Criminal",
+  "artista": "Michael Jackson",
+  "genero": "80-90"
+ },
+ {
+  "id": "loc-0046",
+  "titulo": "Wonderwall",
+  "artista": "Oasis",
+  "genero": "80-90"
+ },
+ {
+  "id": "loc-0047",
+  "titulo": "Zombie",
+  "artista": "The Cranberries",
+  "genero": "80-90"
+ },
+ {
+  "id": "loc-0048",
+  "titulo": "Losing My Religion",
+  "artista": "R.E.M.",
+  "genero": "80-90"
+ },
+ {
+  "id": "loc-0049",
+  "titulo": "Smells Like Teen Spirit",
+  "artista": "Nirvana",
+  "genero": "80-90"
+ },
+ {
+  "id": "loc-0050",
+  "titulo": "Take On Me",
+  "artista": "a-ha",
+  "genero": "80-90"
+ },
+ {
+  "id": "loc-0051",
+  "titulo": "Africa",
+  "artista": "Toto",
+  "genero": "80-90"
+ },
+ {
+  "id": "loc-0052",
+  "titulo": "Bohemian Rhapsody",
+  "artista": "Queen",
+  "genero": "rock"
+ },
+ {
+  "id": "loc-0053",
+  "titulo": "Don't Stop Me Now",
+  "artista": "Queen",
+  "genero": "rock"
+ },
+ {
+  "id": "loc-0054",
+  "titulo": "I Want It That Way",
+  "artista": "Backstreet Boys",
+  "genero": "pop"
+ },
+ {
+  "id": "loc-0055",
+  "titulo": "Livin' la vida loca",
+  "artista": "Ricky Martin",
+  "genero": "pop"
+ },
+ {
+  "id": "loc-0056",
+  "titulo": "La copa de la vida",
+  "artista": "Ricky Martin",
+  "genero": "pop"
+ },
+ {
+  "id": "loc-0057",
+  "titulo": "Bailando",
+  "artista": "Enrique Iglesias",
+  "genero": "pop"
+ },
+ {
+  "id": "loc-0058",
+  "titulo": "Hero",
+  "artista": "Enrique Iglesias",
+  "genero": "romantica"
+ },
+ {
+  "id": "loc-0059",
+  "titulo": "Waka Waka",
+  "artista": "Shakira",
+  "genero": "pop"
+ },
+ {
+  "id": "loc-0060",
+  "titulo": "La tortura",
+  "artista": "Shakira",
+  "genero": "pop"
+ },
+ {
+  "id": "loc-0061",
+  "titulo": "Hips Don't Lie",
+  "artista": "Shakira",
+  "genero": "pop"
+ },
+ {
+  "id": "loc-0062",
+  "titulo": "Ojos así",
+  "artista": "Shakira",
+  "genero": "pop"
+ },
+ {
+  "id": "loc-0063",
+  "titulo": "Vivir mi vida",
+  "artista": "Marc Anthony",
+  "genero": "pop"
+ },
+ {
+  "id": "loc-0064",
+  "titulo": "Valió la pena",
+  "artista": "Marc Anthony",
+  "genero": "romantica"
+ },
+ {
+  "id": "loc-0065",
+  "titulo": "La vida es un carnaval",
+  "artista": "Celia Cruz",
+  "genero": "pop"
+ },
+ {
+  "id": "loc-0066",
+  "titulo": "Quimbara",
+  "artista": "Celia Cruz",
+  "genero": "pop"
+ },
+ {
+  "id": "loc-0067",
+  "titulo": "Propuesta indecente",
+  "artista": "Romeo Santos",
+  "genero": "romantica"
+ },
+ {
+  "id": "loc-0068",
+  "titulo": "Obsesión",
+  "artista": "Aventura",
+  "genero": "romantica"
+ },
+ {
+  "id": "loc-0069",
+  "titulo": "Darte un beso",
+  "artista": "Prince Royce",
+  "genero": "romantica"
+ },
+ {
+  "id": "loc-0070",
+  "titulo": "Danza kuduro",
+  "artista": "Don Omar",
+  "genero": "reggaeton"
+ },
+ {
+  "id": "loc-0071",
+  "titulo": "Gasolina",
+  "artista": "Daddy Yankee",
+  "genero": "reggaeton"
+ },
+ {
+  "id": "loc-0072",
+  "titulo": "Despacito",
+  "artista": "Luis Fonsi",
+  "genero": "reggaeton"
+ },
+ {
+  "id": "loc-0073",
+  "titulo": "Con calma",
+  "artista": "Daddy Yankee",
+  "genero": "reggaeton"
+ },
+ {
+  "id": "loc-0074",
+  "titulo": "Taki Taki",
+  "artista": "DJ Snake",
+  "genero": "reggaeton"
+ },
+ {
+  "id": "loc-0075",
+  "titulo": "Dákiti",
+  "artista": "Bad Bunny",
+  "genero": "reggaeton"
+ },
+ {
+  "id": "loc-0076",
+  "titulo": "Tití me preguntó",
+  "artista": "Bad Bunny",
+  "genero": "reggaeton"
+ },
+ {
+  "id": "loc-0077",
+  "titulo": "Me porto bonito",
+  "artista": "Bad Bunny",
+  "genero": "reggaeton"
+ },
+ {
+  "id": "loc-0078",
+  "titulo": "Ojitos lindos",
+  "artista": "Bad Bunny",
+  "genero": "reggaeton"
+ },
+ {
+  "id": "loc-0079",
+  "titulo": "Pepas",
+  "artista": "Farruko",
+  "genero": "reggaeton"
+ },
+ {
+  "id": "loc-0080",
+  "titulo": "Hawái",
+  "artista": "Maluma",
+  "genero": "reggaeton"
+ },
+ {
+  "id": "loc-0081",
+  "titulo": "Felices los 4",
+  "artista": "Maluma",
+  "genero": "reggaeton"
+ },
+ {
+  "id": "loc-0082",
+  "titulo": "Tusa",
+  "artista": "Karol G",
+  "genero": "reggaeton"
+ },
+ {
+  "id": "loc-0083",
+  "titulo": "Provenza",
+  "artista": "Karol G",
+  "genero": "reggaeton"
+ },
+ {
+  "id": "loc-0084",
+  "titulo": "La bachata",
+  "artista": "Manuel Turizo",
+  "genero": "reggaeton"
+ },
+ {
+  "id": "loc-0085",
+  "titulo": "Cómo te voy a olvidar",
+  "artista": "Los Ángeles Azules",
+  "genero": "cumbia"
+ },
+ {
+  "id": "loc-0086",
+  "titulo": "Nunca es suficiente",
+  "artista": "Los Ángeles Azules",
+  "genero": "cumbia"
+ },
+ {
+  "id": "loc-0087",
+  "titulo": "17 años",
+  "artista": "Los Ángeles Azules",
+  "genero": "cumbia"
+ },
+ {
+  "id": "loc-0088",
+  "titulo": "El listón de tu pelo",
+  "artista": "Los Ángeles Azules",
+  "genero": "cumbia"
+ },
+ {
+  "id": "loc-0089",
+  "titulo": "Las mañanitas",
+  "artista": "Los Ángeles Azules",
+  "genero": "cumbia"
+ },
+ {
+  "id": "loc-0090",
+  "titulo": "Dos locos",
+  "artista": "Los Inquietos del Vallenato",
+  "genero": "cumbia"
+ },
+ {
+  "id": "loc-0091",
+  "titulo": "La pollera amarilla",
+  "artista": "Los Wawancó",
+  "genero": "cumbia"
+ },
+ {
+  "id": "loc-0092",
+  "titulo": "Cumbia de la paz",
+  "artista": "Kchiporros",
+  "genero": "cumbia"
+ },
+ {
+  "id": "loc-0093",
+  "titulo": "Cumbia del corazón",
+  "artista": "Kchiporros",
+  "genero": "cumbia"
+ },
+ {
+  "id": "loc-0094",
+  "titulo": "Amor de mis amores",
+  "artista": "Kchiporros",
+  "genero": "cumbia"
+ },
+ {
+  "id": "loc-0095",
+  "titulo": "Que nadie sepa mi sufrir",
+  "artista": "Los Palmeras",
+  "genero": "cumbia"
+ },
+ {
+  "id": "loc-0096",
+  "titulo": "Bombón asesino",
+  "artista": "Los Palmeras",
+  "genero": "cumbia"
+ },
+ {
+  "id": "loc-0097",
+  "titulo": "Soy sabalero",
+  "artista": "Los Palmeras",
+  "genero": "cumbia"
+ },
+ {
+  "id": "loc-0098",
+  "titulo": "El bombón asesino",
+  "artista": "Ninja",
+  "genero": "cumbia"
+ },
+ {
+  "id": "loc-0099",
+  "titulo": "Motivos",
+  "artista": "Damas Gratis",
+  "genero": "cumbia"
+ },
+ {
+  "id": "loc-0100",
+  "titulo": "Se te ve la tanga",
+  "artista": "Damas Gratis",
+  "genero": "cumbia"
+ },
+ {
+  "id": "loc-0101",
+  "titulo": "La cumbia del acordeón",
+  "artista": "Grupo Kual",
+  "genero": "cumbia"
+ },
+ {
+  "id": "loc-0102",
+  "titulo": "Recostada en la cama",
+  "artista": "Los Charros",
+  "genero": "cumbia"
+ },
+ {
+  "id": "loc-0103",
+  "titulo": "Amor prohibido",
+  "artista": "Selena",
+  "genero": "cumbia"
+ },
+ {
+  "id": "loc-0104",
+  "titulo": "Como la flor",
+  "artista": "Selena",
+  "genero": "cumbia"
+ },
+ {
+  "id": "loc-0105",
+  "titulo": "Bidi bidi bom bom",
+  "artista": "Selena",
+  "genero": "cumbia"
+ },
+ {
+  "id": "loc-0106",
+  "titulo": "Tú sólo tú",
+  "artista": "Selena",
+  "genero": "ranchera"
+ },
+ {
+  "id": "loc-0107",
+  "titulo": "El rey",
+  "artista": "Vicente Fernández",
+  "genero": "ranchera"
+ },
+ {
+  "id": "loc-0108",
+  "titulo": "Volver volver",
+  "artista": "Vicente Fernández",
+  "genero": "ranchera"
+ },
+ {
+  "id": "loc-0109",
+  "titulo": "Por tu maldito amor",
+  "artista": "Vicente Fernández",
+  "genero": "ranchera"
+ },
+ {
+  "id": "loc-0110",
+  "titulo": "Acá entre nos",
+  "artista": "Vicente Fernández",
+  "genero": "ranchera"
+ },
+ {
+  "id": "loc-0111",
+  "titulo": "Si nos dejan",
+  "artista": "Luis Miguel",
+  "genero": "romantica"
+ },
+ {
+  "id": "loc-0112",
+  "titulo": "La incondicional",
+  "artista": "Luis Miguel",
+  "genero": "romantica"
+ },
+ {
+  "id": "loc-0113",
+  "titulo": "Ahora te puedes marchar",
+  "artista": "Luis Miguel",
+  "genero": "romantica"
+ },
+ {
+  "id": "loc-0114",
+  "titulo": "Por debajo de la mesa",
+  "artista": "Luis Miguel",
+  "genero": "romantica"
+ },
+ {
+  "id": "loc-0115",
+  "titulo": "Mi gran noche",
+  "artista": "Raphael",
+  "genero": "romantica"
+ },
+ {
+  "id": "loc-0116",
+  "titulo": "El día que me quieras",
+  "artista": "Carlos Gardel",
+  "genero": "romantica"
+ },
+ {
+  "id": "loc-0117",
+  "titulo": "Recuerdos de Ypacaraí",
+  "artista": "Luis Alberto del Paraná",
+  "genero": "paraguaya"
+ },
+ {
+  "id": "loc-0118",
+  "titulo": "Galopera",
+  "artista": "Los Paraguayos",
+  "genero": "paraguaya"
+ },
+ {
+  "id": "loc-0119",
+  "titulo": "Pájaro Campana",
+  "artista": "Félix Pérez Cardozo",
+  "genero": "paraguaya"
+ },
+ {
+  "id": "loc-0120",
+  "titulo": "Mis noches sin ti",
+  "artista": "Demetrio Ortiz",
+  "genero": "paraguaya"
+ },
+ {
+  "id": "loc-0121",
+  "titulo": "India",
+  "artista": "José Asunción Flores",
+  "genero": "paraguaya"
+ },
+ {
+  "id": "loc-0122",
+  "titulo": "Che la Reina",
+  "artista": "Emiliano R. Fernández",
+  "genero": "paraguaya"
+ },
+ {
+  "id": "loc-0123",
+  "titulo": "Ñemity",
+  "artista": "Maneco Galeano",
+  "genero": "paraguaya"
+ },
+ {
+  "id": "loc-0124",
+  "titulo": "Despertar",
+  "artista": "Purahéi Soul",
+  "genero": "paraguaya"
+ },
+ {
+  "id": "loc-0125",
+  "titulo": "Che pueblo",
+  "artista": "Rolando Chaparro",
+  "genero": "paraguaya"
+ },
+ {
+  "id": "loc-0126",
+  "titulo": "Mi última canción",
+  "artista": "Paiko",
+  "genero": "paraguaya"
+ },
+ {
+  "id": "loc-0127",
+  "titulo": "Garota de Ipanema",
+  "artista": "Tom Jobim",
+  "genero": "brasilera"
+ },
+ {
+  "id": "loc-0128",
+  "titulo": "Mas que nada",
+  "artista": "Sergio Mendes",
+  "genero": "brasilera"
+ },
+ {
+  "id": "loc-0129",
+  "titulo": "Ai se eu te pego",
+  "artista": "Michel Teló",
+  "genero": "brasilera"
+ },
+ {
+  "id": "loc-0130",
+  "titulo": "Balada boa",
+  "artista": "Gusttavo Lima",
+  "genero": "brasilera"
+ },
+ {
+  "id": "loc-0131",
+  "titulo": "Evidências",
+  "artista": "Chitãozinho e Xororó",
+  "genero": "brasilera"
+ },
+ {
+  "id": "loc-0132",
+  "titulo": "Sorte grande",
+  "artista": "Ivete Sangalo",
+  "genero": "brasilera"
+ },
+ {
+  "id": "loc-0133",
+  "titulo": "Beijinho no ombro",
+  "artista": "Valesca Popozuda",
+  "genero": "brasilera"
+ },
+ {
+  "id": "loc-0134",
+  "titulo": "Levada louca",
+  "artista": "Aviões do Forró",
+  "genero": "brasilera"
+ },
+ {
+  "id": "loc-0135",
+  "titulo": "Titanium",
+  "artista": "David Guetta",
+  "genero": "electronica"
+ },
+ {
+  "id": "loc-0136",
+  "titulo": "Wake Me Up",
+  "artista": "Avicii",
+  "genero": "electronica"
+ },
+ {
+  "id": "loc-0137",
+  "titulo": "Levels",
+  "artista": "Avicii",
+  "genero": "electronica"
+ },
+ {
+  "id": "loc-0138",
+  "titulo": "Animals",
+  "artista": "Martin Garrix",
+  "genero": "electronica"
+ },
+ {
+  "id": "loc-0139",
+  "titulo": "Don't You Worry Child",
+  "artista": "Swedish House Mafia",
+  "genero": "electronica"
+ },
+ {
+  "id": "loc-0140",
+  "titulo": "One More Time",
+  "artista": "Daft Punk",
+  "genero": "electronica"
+ },
+ {
+  "id": "loc-0141",
+  "titulo": "Around the World",
+  "artista": "Daft Punk",
+  "genero": "electronica"
+ },
+ {
+  "id": "loc-0142",
+  "titulo": "Blinding Lights",
+  "artista": "The Weeknd",
+  "genero": "pop"
+ },
+ {
+  "id": "loc-0143",
+  "titulo": "Shape of You",
+  "artista": "Ed Sheeran",
+  "genero": "pop"
+ },
+ {
+  "id": "loc-0144",
+  "titulo": "Uptown Funk",
+  "artista": "Mark Ronson",
+  "genero": "pop"
+ },
+ {
+  "id": "loc-0145",
+  "titulo": "Can't Stop the Feeling",
+  "artista": "Justin Timberlake",
+  "genero": "pop"
+ },
+ {
+  "id": "loc-0146",
+  "titulo": "Happy",
+  "artista": "Pharrell Williams",
+  "genero": "pop"
+ },
+ {
+  "id": "loc-0147",
+  "titulo": "Dance Monkey",
+  "artista": "Tones and I",
+  "genero": "pop"
+ },
+ {
+  "id": "loc-0148",
+  "titulo": "Flowers",
+  "artista": "Miley Cyrus",
+  "genero": "pop"
+ },
+ {
+  "id": "loc-0149",
+  "titulo": "As It Was",
+  "artista": "Harry Styles",
+  "genero": "pop"
+ }
+]

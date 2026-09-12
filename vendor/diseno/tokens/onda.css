@@ -1,0 +1,506 @@
+/* ══════════════════════════════════════════════════════════════════════════
+   onda.css — los tokens del sistema de diseño.
+
+   Es la capa de identidad: colores, tipografía, espacio, forma y MOVIMIENTO.
+   Todo lo demás del sistema se construye sobre esto.
+
+   CSS plano a propósito. No necesita compilarse, así que sirve igual al panel
+   de monitoreo (HTML servido tal cual) que a una aplicación React. Los
+   proyectos con Tailwind importan onda-tailwind.css, que traduce estos mismos
+   valores a utilidades sin duplicar ninguno.
+
+   Dos capas, y la distinción importa:
+
+     PALETA     escalas 50–950. No cambian con el tema: son pintura.
+     SEMÁNTICA  fondo, panel, texto, borde… SÍ cambian con el tema.
+
+   Un componente usa la semántica el 95% de las veces. Si estás escribiendo
+   var(--onda-neutro-400) en un componente, casi seguro querías un token
+   semántico que todavía no existe: agregalo acá en vez de esquivarlo.
+
+   Fuente de verdad: /srv/01-infra/diseno/tokens/onda.css
+   Se copia a los consumidores que no compilan con: sudo sincronizar-diseno
+   ══════════════════════════════════════════════════════════════════════════ */
+
+:root {
+
+  /* ─────────────────────────── PALETA ───────────────────────────
+     Independiente del tema. */
+
+  /* Marca */
+  --onda-marca-50:  #eff6ff;
+  --onda-marca-100: #dbeafe;
+  --onda-marca-200: #bfdbfe;
+  --onda-marca-300: #93c5fd;
+  --onda-marca-400: #60a5fa;
+  --onda-marca-500: #3b82f6;
+  --onda-marca-600: #2563eb;
+  --onda-marca-700: #1d4ed8;
+  --onda-marca-800: #1e40af;
+  --onda-marca-900: #1e3a8a;
+  --onda-marca-950: #172554;
+
+  /* Neutro. Cinco de estos once pasos ya se usaban en el panel de monitoreo
+     sin tener nombre: 50, 100, 200, 500 y 900. El resto se interpoló. */
+  --onda-neutro-50:  #f6f7f9;
+  --onda-neutro-100: #eceef1;
+  --onda-neutro-200: #e2e5ea;
+  --onda-neutro-300: #cbd0d8;
+  --onda-neutro-400: #9aa1ac;
+  --onda-neutro-500: #6b7280;
+  --onda-neutro-600: #545a65;
+  --onda-neutro-700: #3f444d;
+  --onda-neutro-800: #2b2f36;
+  --onda-neutro-900: #1c2024;
+  --onda-neutro-950: #0e1116;
+
+  --onda-exito-50:  #ecfcf5;
+  --onda-exito-100: #d3f6e6;
+  --onda-exito-200: #a7ecd0;
+  --onda-exito-300: #6ad9b0;
+  --onda-exito-400: #2cc08e;
+  --onda-exito-500: #17a173;
+  --onda-exito-600: #12805c;
+  --onda-exito-700: #0e6b4d;
+  --onda-exito-800: #0c5b42;
+  --onda-exito-900: #06392c;
+  --onda-exito-950: #04211a;
+
+  --onda-aviso-50:  #fffbeb;
+  --onda-aviso-100: #fef3c7;
+  --onda-aviso-200: #fde68a;
+  --onda-aviso-300: #fcd34d;
+  --onda-aviso-400: #fbbf24;
+  --onda-aviso-500: #f59e0b;
+  --onda-aviso-600: #d97706;
+  --onda-aviso-700: #b45309;
+  --onda-aviso-800: #92400e;
+  --onda-aviso-900: #78350f;
+  --onda-aviso-950: #451a03;
+
+  --onda-peligro-50:  #fef2f2;
+  --onda-peligro-100: #fee2e2;
+  --onda-peligro-200: #fecaca;
+  --onda-peligro-300: #fca5a5;
+  --onda-peligro-400: #f87171;
+  --onda-peligro-500: #ef4444;
+  --onda-peligro-600: #d92030;
+  --onda-peligro-700: #c1121f;
+  --onda-peligro-800: #9f1019;
+  --onda-peligro-900: #7f0f16;
+  --onda-peligro-950: #450a0a;
+
+  --onda-info-50:  #f0f9ff;
+  --onda-info-100: #e0f2fe;
+  --onda-info-200: #bae6fd;
+  --onda-info-300: #7dd3fc;
+  --onda-info-400: #38bdf8;
+  --onda-info-500: #0ea5e9;
+  --onda-info-600: #0284c7;
+  --onda-info-700: #0369a1;
+  --onda-info-800: #075985;
+  --onda-info-900: #0c4a6e;
+  --onda-info-950: #082f49;
+
+  /* ───────────────────────── TIPOGRAFÍA ─────────────────────────
+     Fuentes del sistema, sin descarga. Una app abre sin esperar una fuente
+     de un CDN, y no hay una petición a un tercero en cada visita. El día que
+     ONDA tenga una fuente propia, se cambia acá y cambia en todos lados. */
+
+  --onda-fuente-sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --onda-fuente-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+
+  --onda-texto-2xs:     0.6875rem;  /* 11px */
+  --onda-texto-xs:      0.75rem;    /* 12px */
+  --onda-texto-sm:      0.8125rem;  /* 13px */
+  --onda-texto-base:    0.875rem;   /* 14px — la base de las aplicaciones */
+  --onda-texto-lg:      1rem;       /* 16px */
+  --onda-texto-xl:      1.125rem;   /* 18px */
+  --onda-texto-2xl:     1.375rem;   /* 22px */
+  --onda-texto-3xl:     1.75rem;    /* 28px */
+  --onda-texto-4xl:     2.25rem;    /* 36px */
+  --onda-texto-display: 3rem;       /* 48px */
+
+  --onda-peso-normal:  400;
+  --onda-peso-medio:   500;
+  --onda-peso-semi:    600;
+  --onda-peso-fuerte:  650;
+  --onda-peso-negrita: 700;
+
+  --onda-alto-ajustado: 1.2;
+  --onda-alto-normal:   1.5;
+  --onda-alto-amplio:   1.7;
+
+  --onda-track-apretado: -0.01em;
+  --onda-track-normal:    0;
+  --onda-track-suelto:    0.05em;
+  --onda-track-amplio:    0.08em;
+
+  /* ─────────────────────────── ESPACIO ────────────────────────── */
+
+  --onda-esp-1:  0.25rem;   /*  4 */
+  --onda-esp-2:  0.5rem;    /*  8 */
+  --onda-esp-3:  0.75rem;   /* 12 */
+  --onda-esp-4:  1rem;      /* 16 */
+  --onda-esp-5:  1.25rem;   /* 20 */
+  --onda-esp-6:  1.5rem;    /* 24 */
+  --onda-esp-8:  2rem;      /* 32 */
+  --onda-esp-10: 2.5rem;    /* 40 */
+  --onda-esp-12: 3rem;      /* 48 */
+  --onda-esp-16: 4rem;      /* 64 */
+  --onda-esp-20: 5rem;      /* 80 */
+  --onda-esp-24: 6rem;      /* 96 */
+
+  /* ──────────────────────────── FORMA ─────────────────────────── */
+
+  --onda-radio-xs:   3px;
+  --onda-radio-sm:   4px;
+  --onda-radio-md:   7px;
+  --onda-radio-lg:   12px;  /* BRUMA: 9 → 12. Lo usan tarjeta, tabla y esqueleto */
+  --onda-radio-xl:   16px;  /* BRUMA: 14 → 16. Lo usa el modal */
+  --onda-radio-2xl:  20px;
+  --onda-radio-full: 999px;
+
+  --onda-borde-fino:   1px;
+  --onda-borde-grueso: 2px;
+  --onda-borde-acento: 3px;   /* el filo izquierdo de un aviso */
+
+  --onda-blur-sutil:  4px;
+  --onda-blur-vidrio: 12px;
+  --onda-blur-fuerte: 24px;
+
+  /* ─────────────────────────── PROFUNDIDAD ──────────────────────
+     Nombrada para no volver a escribir z-index: 9999 nunca más. */
+
+  --onda-z-base:    0;
+  --onda-z-elevado: 10;
+  --onda-z-pegado:  100;
+  --onda-z-nav:     200;
+  --onda-z-drawer:  300;
+  --onda-z-modal:   400;
+  --onda-z-toast:   500;
+  --onda-z-tooltip: 600;
+
+  /* ─────────────────────────── MOVIMIENTO ───────────────────────
+     Acá vive la identidad. Dos apps con los mismos colores y distinto timing
+     no se sienten del mismo lugar; con el mismo timing, sí.
+
+     La regla: NINGÚN componente escribe una duración literal. Si un caso
+     necesita un valor que no está, se agrega un token, no una excepción. */
+
+  --onda-dur-instant: 100ms;  /* realimentación de una pulsación */
+  --onda-dur-rapida:  180ms;  /* hover, foco, cambios de color */
+  --onda-dur-normal:  280ms;  /* modales, drawers, la mayoría */
+  --onda-dur-lenta:   450ms;  /* transiciones de vista */
+  --onda-dur-cine:    700ms;  /* narrativa, sólo en superficies públicas */
+
+  --onda-ease-estandar: cubic-bezier(0.4, 0, 0.2, 1);
+  --onda-ease-entrada:  cubic-bezier(0, 0, 0.2, 1);      /* frena al llegar */
+  --onda-ease-salida:   cubic-bezier(0.4, 0, 1, 1);      /* acelera al irse */
+  --onda-ease-expo:     cubic-bezier(0.16, 1, 0.3, 1);   /* arranca fuerte */
+  --onda-ease-resorte:  cubic-bezier(0.34, 1.56, 0.64, 1);
+  --onda-ease-rebote:   cubic-bezier(0.68, -0.55, 0.27, 1.55);
+
+  --onda-stagger: 40ms;   /* retraso entre elementos de una lista */
+
+  /* ─────────────────────── PUNTOS DE QUIEBRE ────────────────────
+     Referencia para JavaScript y documentación. Una @media NO puede leer
+     una variable CSS: en las hojas de estilo el valor va literal. Están acá
+     para que el número viva en un solo lugar conceptual. */
+
+  --onda-bp-movil:     480px;
+  --onda-bp-tableta:   768px;
+  --onda-bp-portatil:  1024px;
+  --onda-bp-escritorio:1280px;
+  --onda-bp-ancho:     1600px;
+
+  --onda-ancho-lectura: 68ch;
+  --onda-ancho-app:     1180px;   /* el que ya usa el panel de monitoreo */
+
+
+  /* ═════════════════════ SEMÁNTICA — TEMA CLARO ═════════════════
+     Estos son los que usan los componentes. Los valores replican
+     exactamente los del panel de monitoreo: la migración no debe
+     cambiar un solo píxel. */
+
+  --onda-fondo:        #f6f7f9;
+  --onda-panel:        #ffffff;
+  --onda-elevado:      #ffffff;
+  --onda-suave:        #eceef1;
+  --onda-borde:        #e2e5ea;
+  --onda-borde-fuerte: #cbd0d8;
+  --onda-texto:        #1c2024;
+  --onda-tenue:        #6b7280;
+
+  --onda-marca:            #2563eb;
+  --onda-marca-contraste:  #ffffff;
+  --onda-marca-suave:      #eff6ff;
+
+  --onda-exito:            #12805c;
+  --onda-exito-contraste:  #ffffff;
+  --onda-exito-suave:      #ecfcf5;
+
+  --onda-aviso:            #b45309;
+  --onda-aviso-contraste:  #ffffff;
+  --onda-aviso-suave:      #fffbeb;
+
+  --onda-peligro:           #c1121f;
+  --onda-peligro-contraste: #ffffff;
+  --onda-peligro-suave:     #fef2f2;
+
+  --onda-info:            #0369a1;
+  --onda-info-contraste:  #ffffff;
+  --onda-info-suave:      #f0f9ff;
+
+  --onda-marca-hover:   #1d4ed8;
+  --onda-exito-hover:   #0e6b4d;
+  --onda-peligro-hover: #9f1019;
+  --onda-suave-hover:   #e2e5ea;
+  --onda-panel-hover:   #f6f7f9;
+
+  --onda-velo: rgb(16 20 26 / 0.45);
+  --onda-foco: #2563eb;
+
+  /* ─────────────────────── PROFUNDIDAD ───────────────────────
+     Cinco perillas y seis sombras. Las sombras se escriben UNA vez
+     acá y NO se repiten en los bloques de tema oscuro: lo que cambia
+     por tema son las perillas, no la geometría.
+
+     Antes cada sombra estaba escrita tres veces —claro y los dos
+     bloques oscuros— con las alfas ajustadas a mano. Doce valores
+     para cuatro sombras es exactamente como se desincronizan las
+     cosas.
+
+     Dos tratamientos conviven acá a propósito:
+
+       RELIEVE  botones y piezas chicas. Filo de luz arriba y sombra
+                corta teñida con el color de la propia pieza.
+       BRUMA    tarjetas, flotantes y modal. Sombras largas y abiertas;
+                la separación la hace la sombra, no la línea. */
+
+  /* El color de toda sombra. Un solo lugar: si mañana el fondo se
+     vuelve más cálido, la sombra lo acompaña sin tocar nada más. */
+  --onda-tinta: 16 20 26;
+
+  /* El tinte propio de una pieza de color. Cada variante de botón lo
+     pisa con el suyo (ver Boton.tsx). Una sombra gris bajo un botón
+     azul lee sucia; teñida con su propio azul lee como sombra de esa
+     pieza. Este valor es el que usa cualquier superficie neutra. */
+  --onda-tono: 16 20 26;
+
+  /* Cuánta luz admite el filo superior de una superficie. Es lo que
+     le da CARA a una pieza: sin un arriba iluminado, un relleno de
+     color plano no tiene volumen, tiene área. */
+  --onda-luz-alfa: 0.18;
+
+  /* Multiplicador global de opacidad. Sobre fondo oscuro una sombra
+     suave no se ve y la elevación se pierde, así que en oscuro suben
+     todas juntas en vez de reescribirse una por una. */
+  --onda-sombra-alfa: 1;
+
+  /* Freno de las sombras de color. En oscuro se apagan a la mitad: un
+     halo azul saturado sobre #0e1116 no lee como sombra, lee como que
+     el botón está prendido. */
+  --onda-color-alfa: 1;
+
+  /* ── RELIEVE ──
+     El filo de luz y el resplandor de arriba van DENTRO del token. Así
+     el volumen no depende de que un componente se acuerde de agregar
+     una clase: viene con la sombra. */
+  --onda-sombra-sutil:
+    inset 0 1px 0 rgb(255 255 255 / var(--onda-luz-alfa)),
+    inset 0 8px 12px -8px rgb(255 255 255 / calc(var(--onda-luz-alfa) * 0.5)),
+    0 1px 1px rgb(var(--onda-tinta) / calc(0.05 * var(--onda-sombra-alfa))),
+    0 2px 4px -1px rgb(var(--onda-tono) / calc(0.22 * var(--onda-color-alfa)));
+
+  /* hover: la pieza se despega más, sin moverse de lugar. */
+  --onda-sombra-realzada:
+    inset 0 1px 0 rgb(255 255 255 / var(--onda-luz-alfa)),
+    inset 0 8px 12px -8px rgb(255 255 255 / calc(var(--onda-luz-alfa) * 0.5)),
+    0 1px 1px rgb(var(--onda-tinta) / calc(0.06 * var(--onda-sombra-alfa))),
+    0 4px 8px -2px rgb(var(--onda-tono) / calc(0.30 * var(--onda-color-alfa)));
+
+  /* :active — se apaga el filo y entra la sombra adentro. Es lo que
+     hace que apretar se sienta como apretar y no como parpadear. */
+  --onda-sombra-hundida:
+    inset 0 1px 2px rgb(var(--onda-tinta) / calc(0.18 * var(--onda-sombra-alfa)));
+
+  /* ── BRUMA ── */
+  --onda-sombra-tarjeta:
+    0 1px 1px rgb(var(--onda-tinta) / calc(0.04 * var(--onda-sombra-alfa))),
+    0 8px 28px -8px rgb(var(--onda-tinta) / calc(0.13 * var(--onda-sombra-alfa)));
+  --onda-sombra-flotante:
+    0 2px 4px rgb(var(--onda-tinta) / calc(0.05 * var(--onda-sombra-alfa))),
+    0 20px 48px -12px rgb(var(--onda-tinta) / calc(0.22 * var(--onda-sombra-alfa)));
+  --onda-sombra-modal:
+    0 4px 8px rgb(var(--onda-tinta) / calc(0.06 * var(--onda-sombra-alfa))),
+    0 32px 72px -16px rgb(var(--onda-tinta) / calc(0.34 * var(--onda-sombra-alfa)));
+
+  /* El borde de una tarjeta se retira casi del todo y deja trabajar a
+     la sombra. En OSCURO no se retira: ahí la sombra no tiene contra
+     qué leerse y el borde vuelve a ser la única separación. Por eso es
+     un color por tema y no se deriva de la tinta — es la única pieza
+     de este bloque que no se puede calcular. */
+  --onda-borde-tarjeta: rgb(16 20 26 / 0.06);
+
+  color-scheme: light dark;
+}
+
+
+/* ═══════════════════════ SEMÁNTICA — TEMA OSCURO ═══════════════════════
+
+   Dos bloques con los mismos valores, y hacen falta los dos:
+
+     El @media sigue al sistema operativo cuando nadie eligió nada.
+     El [data-tema] gana cuando la persona eligió a mano.
+
+   El :not() del primero es lo que permite que alguien fuerce el tema claro
+   teniendo el sistema en oscuro. Sin eso, el conmutador anda para un lado
+   solo. */
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-tema="claro"]) {
+    --onda-fondo:              #0e1116;
+    --onda-panel:              #161b22;
+    --onda-elevado:            #1c2128;
+    --onda-suave:              #21262d;
+    --onda-borde:              #262c36;
+    --onda-borde-fuerte:       #3a414d;
+    --onda-texto:              #e6edf3;
+    --onda-tenue:              #8b949e;
+
+    --onda-marca:              #58a6ff;
+    --onda-marca-contraste:    #0e1116;
+    --onda-marca-suave:        #12233b;
+    --onda-exito:              #3fb950;
+    --onda-exito-contraste:    #0e1116;
+    --onda-exito-suave:        #10281a;
+    --onda-aviso:              #d29922;
+    --onda-aviso-contraste:    #0e1116;
+    --onda-aviso-suave:        #2b2110;
+    --onda-peligro:            #f85149;
+    --onda-peligro-contraste:  #0e1116;
+    --onda-peligro-suave:      #331416;
+    --onda-info:               #58b6f0;
+    --onda-info-contraste:     #0e1116;
+    --onda-info-suave:         #10263a;
+
+    --onda-marca-hover:        #79b8ff;
+    --onda-exito-hover:        #56d364;
+    --onda-peligro-hover:      #ff7b72;
+    --onda-suave-hover:        #2b313a;
+    --onda-panel-hover:        #1c2128;
+
+    --onda-velo:               rgb(1 4 9 / 0.65);
+    --onda-foco:               #58a6ff;
+
+    /* Las cinco perillas de profundidad. Las SOMBRAS no se repiten acá:
+       están escritas una sola vez en :root en función de estos valores.
+       Cambiar una sombra es cambiarla en un lugar, para los dos temas. */
+    --onda-tinta:              1 4 9;
+    --onda-tono:               1 4 9;
+    --onda-luz-alfa:           0.07;   /* el filo blanco tiene que casi desaparecer */
+    --onda-sombra-alfa:        3;      /* una sombra suave sobre #0e1116 no existe */
+    --onda-color-alfa:         0.55;   /* si no, el botón parece prendido */
+    --onda-borde-tarjeta:      #262c36;
+  }
+}
+
+:root[data-tema="oscuro"] {
+  --onda-fondo:              #0e1116;
+  --onda-panel:              #161b22;
+  --onda-elevado:            #1c2128;
+  --onda-suave:              #21262d;
+  --onda-borde:              #262c36;
+  --onda-borde-fuerte:       #3a414d;
+  --onda-texto:              #e6edf3;
+  --onda-tenue:              #8b949e;
+
+  --onda-marca:              #58a6ff;
+  --onda-marca-contraste:    #0e1116;
+  --onda-marca-suave:        #12233b;
+  --onda-exito:              #3fb950;
+  --onda-exito-contraste:    #0e1116;
+  --onda-exito-suave:        #10281a;
+  --onda-aviso:              #d29922;
+  --onda-aviso-contraste:    #0e1116;
+  --onda-aviso-suave:        #2b2110;
+  --onda-peligro:            #f85149;
+  --onda-peligro-contraste:  #0e1116;
+  --onda-peligro-suave:      #331416;
+  --onda-info:               #58b6f0;
+  --onda-info-contraste:     #0e1116;
+  --onda-info-suave:         #10263a;
+
+  --onda-marca-hover:        #79b8ff;
+  --onda-exito-hover:        #56d364;
+  --onda-peligro-hover:      #ff7b72;
+  --onda-suave-hover:        #2b313a;
+  --onda-panel-hover:        #1c2128;
+
+  --onda-velo:               rgb(1 4 9 / 0.65);
+  --onda-foco:               #58a6ff;
+
+  /* Las cinco perillas de profundidad. Las SOMBRAS no se repiten acá:
+     están escritas una sola vez en :root en función de estos valores.
+     Cambiar una sombra es cambiarla en un lugar, para los dos temas. */
+  --onda-tinta:              1 4 9;
+  --onda-tono:               1 4 9;
+  --onda-luz-alfa:           0.07;   /* el filo blanco tiene que casi desaparecer */
+  --onda-sombra-alfa:        3;      /* una sombra suave sobre #0e1116 no existe */
+  --onda-color-alfa:         0.55;   /* si no, el botón parece prendido */
+  --onda-borde-tarjeta:      #262c36;
+}
+
+
+/* ════════════════════════ MOVIMIENTO REDUCIDO ═════════════════════════
+
+   Vaciar las duraciones en un solo lugar apaga TODA la animación del
+   sistema, sin una línea por componente y sin que nadie pueda olvidarse.
+   Ese es el motivo real por el que ningún componente escribe una duración
+   literal: si lo hiciera, se saltearía esto.
+
+   1ms y no 0: algunas transiciones disparan eventos `transitionend` de los
+   que depende la lógica, y con 0 el evento no siempre llega. */
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --onda-dur-instant: 1ms;
+    --onda-dur-rapida:  1ms;
+    --onda-dur-normal:  1ms;
+    --onda-dur-lenta:   1ms;
+    --onda-dur-cine:    1ms;
+    --onda-stagger:     0ms;
+  }
+}
+
+/* Y la guardia universal, que NO reemplaza a la de arriba: la completa.
+
+   Vaciar las duraciones apaga todo lo que usa los tokens, que es el contrato
+   del sistema. Lo que ese contrato no puede cubrir:
+
+     · `animation-iteration-count: infinite`. Con la duración en 1 ms el bucle
+       NO se detiene: se acelera. Un latido de nueve segundos pasa a parpadear
+       mil veces por segundo, que para alguien con sensibilidad vestibular es
+       peor que la animación original.
+     · CSS que no viene del sistema — una librería, un `<style>` de un
+       componente de terceros, un archivo viejo.
+     · Cualquiera que rompa el contrato y escriba una duración literal. El
+       contrato está bien escrito y aun así depende de que nadie se olvide.
+
+   `scroll-behavior: auto` va acá porque un desplazamiento suave programático
+   es movimiento igual, y es de los que más marean.
+
+   La regla que ordena todo esto: si al apagar el movimiento alguien deja de
+   entender qué pasó, esa animación cargaba significado que le corresponde al
+   texto. Se arregla el texto, no la animación. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

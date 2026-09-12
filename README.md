@@ -46,23 +46,42 @@ A printed QR still works after the event is over.
 
 ## Quickstart
 
-Requires Docker and Docker Compose.
+Requires Docker and Docker Compose. Nothing else — no Python, no Node, no
+database on your machine.
 
 ```bash
 cp .env.example .env
 # generate a DB password
 openssl rand -base64 32          # paste into POSTGRES_PASSWORD
-docker compose up -d --build
-docker compose logs -f web
+docker compose -f compose.dev.yaml up -d --build
+docker compose -f compose.dev.yaml logs -f web
 ```
 
-Then open the app. With `TINKER_SEMILLA=si` and an empty database, a **playable
-demo event** is seeded (slug `san-lorenzo-2026`) with its full repertoire:
+**Use `compose.dev.yaml`, not `compose.yaml`.** The two are different on
+purpose. `compose.yaml` is the deployment that runs `tinker.onda.study`: it
+joins an external proxy network, binds host paths, reads the design tokens
+from outside the repo and publishes **no port at all**, because in production
+everything enters through the reverse proxy. It cannot build or start from a
+clean clone, and that is intended. `compose.dev.yaml` is the self-contained
+one: it publishes 8000, uses a named volume, and reads the design token from
+the copy in `vendor/`.
 
-- `/<slug>` — the phone (the game)
-- `/<slug>/pantalla` — the TV
-- `/admin` — create events, paste repertoires, open/close, watch the spend
-- `/health` — process **and** database
+Migrations run before uvicorn in the same command, so the container refuses to
+start against a stale schema. With `TINKER_SEMILLA=si` and an empty database a
+**playable demo event** is seeded (slug `san-lorenzo-2026`) with 149 songs:
+
+- <http://localhost:8000/san-lorenzo-2026> — the phone (the game)
+- <http://localhost:8000/san-lorenzo-2026/pantalla> — the TV
+- <http://localhost:8000/admin> — create events, paste repertoires, open/close
+- <http://localhost:8000/docs> — Swagger UI, 36 routes
+- <http://localhost:8000/health> — process **and** database
+
+Swagger is off unless `TINKER_DOCS` asks for it; `compose.dev.yaml` turns it on
+by itself. Production leaves it off — the app is public, its API surface has no
+reason to be.
+
+Tear it down with `docker compose -f compose.dev.yaml down` (add `-v` to drop
+the database too).
 
 **No AI keys are required to run it.** With zero keys the five-round game plays
 end to end from the deterministic rules and nobody sees an error.
@@ -83,12 +102,12 @@ uvicorn app.main:app --host 0.0.0.0 --port 8000 --workers 1
 
 ## Tests
 
-55 tests. The rules and the cascade run **without spending a single model call**;
+100 tests. The rules and the cascade run **without spending a single model call**;
 the end-to-end rules run against a real PostgreSQL, because the schema leans on
 Postgres constraints and testing it on another engine would test something else.
 
 ```bash
-docker compose run --rm -v "$PWD/pruebas:/app/pruebas" web \
+docker compose -f compose.dev.yaml run --rm -v "$PWD/pruebas:/app/pruebas" web \
   sh -c "pip install -q pytest pytest-asyncio && python -m pytest -q -p no:cacheprovider"
 ```
 

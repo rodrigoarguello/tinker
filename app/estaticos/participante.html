@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="es" data-oscuro="1">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>¿Qué querés escuchar?</title>
+<meta name="theme-color" content="#0E1219">
+<link rel="preload" href="/estaticos/fuentes/bricolage-grotesque-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/estaticos/fuentes/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="icon" href="/estaticos/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/estaticos/fuentes.css">
+<link rel="stylesheet" href="/estaticos/tinker.css">
+</head>
+<body>
+<main class="movil">
+
+  <header class="cabecera">
+    <div class="marca-fila">
+      <span class="orbe-marca"></span>
+      <p class="marca">Tinker</p>
+      <span class="evento-nombre" id="evento-nombre"></span>
+    </div>
+
+    <!-- Lo elegido, en carrusel horizontal: en un teléfono, la altura es lo
+         que no sobra. -->
+    <div class="elegidas" id="elegidas"></div>
+
+    <div class="progreso">
+      <div class="puntos" id="puntos"></div>
+      <span id="ronda-texto">…</span>
+      <span class="contador-elegidas">Elegiste <b id="cuantas">0</b></span>
+    </div>
+  </header>
+
+  <!-- El juego -->
+  <section id="juego" class="oculto">
+    <h2 class="pregunta" id="pregunta">¿Cuáles te gustan?</h2>
+    <p class="pregunta-pie" id="pregunta-pie">Tocá todas las que quieras escuchar hoy.</p>
+    <div class="tanda" id="tanda"></div>
+    <p class="preparando-pie oculto" id="preparando">Buscando las próximas cinco…</p>
+
+    <!-- «Ninguna me gusta». No es un botón de descarte: es la señal más
+         fuerte que el sistema puede recibir, y cambia el rumbo de la tanda
+         siguiente. -->
+    <!-- El único teclado del juego, y es opcional: para el tema de un grupo
+         que no salió en ninguna tanda. -->
+    <details class="buscador-grupo" id="buscador-grupo">
+      <summary>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4.35-4.35"/></svg>
+        Buscar un grupo
+      </summary>
+      <!-- UN FORM de verdad, y no un input suelto: al tocar la lupa del teclado
+           el navegador dispara submit, y eso es lo único que baja el teclado
+           en iOS. Sin form, el teclado tapaba justo los resultados. -->
+      <form class="buscador" id="forma-grupo" action="#">
+        <input id="grupo" type="search" enterkeyhint="search" autocomplete="off"
+               placeholder="Escribí el nombre del grupo">
+        <button class="lupa" type="submit" aria-label="Buscar y ver los temas">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+               stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4.35-4.35"/></svg>
+        </button>
+      </form>
+      <p class="preparando-pie oculto" id="buscando-grupo">Buscando sus temas…</p>
+
+      <!-- Los resultados con panel propio: es lo que la persona está mirando
+           en ese momento, así que se despega del resto de la pantalla. -->
+      <section class="resultados-grupo oculto" id="caja-grupo">
+        <h3 id="titulo-grupo"></h3>
+        <ul class="tanda" id="temas-grupo"></ul>
+      </section>
+    </details>
+  </section>
+
+  <!-- Las cinco elegidas -->
+  <section id="cierre" class="cierre oculto">
+    <span class="orbe-marca grande"></span>
+    <h2>¡Listo!</h2>
+    <p>Elegiste tus <b id="cuantas-final">5</b> canciones.</p>
+    <p>Tus gustos ya forman parte de <span class="evento" id="evento-final"></span></p>
+
+    <div class="mis-cinco" id="mis-cinco"></div>
+
+    <div class="top-evento">
+      <h3>Cómo va quedando la de todos</h3>
+      <ol id="top-evento"></ol>
+    </div>
+
+    <p class="pie-boton">
+      <button class="boton" id="elegir-mas" type="button">Seguir eligiendo</button>
+    </p>
+  </section>
+
+  <!-- El evento cerró -->
+  <section id="cerrado" class="cierre oculto">
+    <h2>Esta es la playlist que armamos entre todos</h2>
+    <p id="texto-cerrado">La recepción de canciones terminó.</p>
+    <p class="pie-boton"><a class="boton" id="playlist-cerrado" href="#">Abrir la playlist</a></p>
+  </section>
+
+  <p class="aviso oculto" id="problema"></p>
+
+</main>
+
+<!-- Fija abajo: cambiar de tanda es EL gesto del juego y no puede quedar
+     debajo de las cinco tarjetas, fuera de la pantalla. -->
+<div class="acciones oculto" id="pie-otras">
+  <button class="boton" id="siguientes" type="button">Otras cinco</button>
+  <button class="boton suave secundaria" id="otras" type="button">Ninguna</button>
+</div>
+
+<div class="brindis" id="brindis" role="status" aria-live="polite"></div>
+
+<script src="/estaticos/participante.js"></script>
+</body>
+</html>

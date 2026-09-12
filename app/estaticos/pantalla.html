@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="es" data-oscuro="1">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tinker · pantalla</title>
+<meta name="theme-color" content="#0E1219">
+<link rel="preload" href="/estaticos/fuentes/bricolage-grotesque-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="icon" href="/estaticos/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/estaticos/fuentes.css">
+<link rel="stylesheet" href="/estaticos/tinker.css">
+</head>
+<body>
+<main class="tele">
+
+  <!-- Izquierda: lo único que no cambia en toda la noche. -->
+  <aside class="columna-qr">
+    <div class="marca-tele">
+      <span class="orbe-marca"></span>
+      <h1>Tinker</h1>
+    </div>
+    <div class="qr"><img id="qr" alt="Código QR para elegir tus canciones"></div>
+    <p class="invitacion">Escaneá y elegí tus canciones</p>
+    <p class="direccion" id="direccion">…</p>
+
+    <!-- El círculo que se cierra. Todo lo demás de esta pantalla cuenta lo que
+         la gente eligió; esto muestra que ESO es lo que está sonando. Vive en
+         la columna fija y no en la rotación de escenas a propósito: lo que
+         suena no puede desaparecer catorce segundos. -->
+    <div class="sonando oculto" id="caja-sonando">
+      <h4><span class="eq"><i></i><i></i><i></i><i></i></span> Sonando ahora</h4>
+      <div class="ahora">
+        <span class="disco" id="sonando-disco"></span>
+        <div class="que-suena">
+          <p class="titulo" id="sonando-titulo"></p>
+          <p class="artista" id="sonando-artista"></p>
+          <p class="elegida" id="sonando-votos"></p>
+        </div>
+      </div>
+      <ol class="siguen oculto" id="siguen"></ol>
+
+      <!-- Sólo aparece para quien abrió esta pantalla CON sesión. El token del
+           reproductor llega por una ruta detrás de Authelia, así que la misma
+           URL es un parlante para quien la puso en el televisor y una pantalla
+           de sólo mirar para cualquier otro que la abra. -->
+      <button class="boton-parlante oculto" id="parlante" type="button">
+        <span class="triangulo"></span> Sonar en esta pantalla
+      </button>
+      <p class="nota-parlante oculto" id="nota-parlante"></p>
+    </div>
+  </aside>
+
+  <!-- Derecha: la parte viva. -->
+  <section class="escena">
+    <header>
+      <h2 id="nombre-evento">…</h2>
+      <p class="lugar" id="lugar"></p>
+    </header>
+
+    <div class="cifras">
+      <div class="cifra"><b id="c-personas">0</b><span>personas</span></div>
+      <div class="cifra"><b id="c-pedidos">0</b><span>elecciones</span></div>
+      <div class="cifra"><b id="c-canciones">0</b><span>canciones</span></div>
+    </div>
+
+    <div id="escena-top">
+      <h3><span class="eq"><i></i><i></i><i></i><i></i></span> Las más elegidas</h3>
+      <ol class="top" id="top"></ol>
+    </div>
+
+    <div id="escena-artistas" class="oculto">
+      <h3><span class="eq"><i></i><i></i><i></i><i></i></span> Los artistas de la noche</h3>
+      <ol class="top" id="artistas"></ol>
+    </div>
+
+    <!-- El agente, hecho visible. Todo lo demás de esta pantalla cuenta lo que
+         la gente eligió; esto cuenta lo que el sistema ENTENDIÓ de eso, que es
+         lo único que no se puede ver de ninguna otra forma. -->
+    <div id="escena-cerebro" class="oculto">
+      <h3><span class="eq"><i></i><i></i><i></i><i></i></span> Lo que está entendiendo</h3>
+      <div class="cerebro">
+        <div class="generos" id="cerebro-generos"></div>
+        <div class="medidores">
+          <div class="medidor">
+            <span class="rotulo-medidor">Energía del salón</span>
+            <div class="riel"><i id="cerebro-energia"></i></div>
+          </div>
+          <div class="medidor">
+            <span class="rotulo-medidor">Qué tan conocido</span>
+            <div class="riel"><i id="cerebro-mainstream"></i></div>
+          </div>
+        </div>
+        <p class="aprendido" id="cerebro-aprendido">Esperando las primeras elecciones…</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<div class="irrumpe">
+  <div class="tarjeta-viva" id="tarjeta">
+    <p class="rotulo" id="rotulo">Nueva elección</p>
+    <p class="cancion" id="viva-titulo"></p>
+    <p class="artista" id="viva-artista"></p>
+    <p class="cuantos" id="viva-cuantos"></p>
+  </div>
+</div>
+
+<p class="pie-tele"><span class="pulso" id="pulso"></span><span id="conexion">en vivo</span></p>
+
+<script src="/estaticos/pantalla.js"></script>
+</body>
+</html>

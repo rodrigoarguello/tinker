@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tinker · eventos</title>
+<link rel="icon" href="/estaticos/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/estaticos/fuentes.css">
+<link rel="stylesheet" href="/estaticos/tinker.css">
+</head>
+<body>
+<main class="admin">
+  <div class="marca-fila">
+    <span class="orbe-marca"></span>
+    <p class="marca">Tinker</p>
+  </div>
+  <h1>Eventos</h1>
+
+  <section class="panel">
+    <h2>Crear uno nuevo</h2>
+    <label class="campo"><span>Nombre, como se ve en la pantalla</span>
+      <input id="nombre" placeholder="IA, ¿Tín que querés? — San Lorenzo"></label>
+    <label class="campo"><span>Dirección corta (esto va en el QR)</span>
+      <input id="slug" placeholder="san-lorenzo-2026"></label>
+    <label class="campo"><span>Lugar</span><input id="lugar" placeholder="San Lorenzo"></label>
+    <label class="campo"><span>Fecha</span><input id="fecha" type="date"></label>
+    <label class="campo"><span>Rondas por teléfono</span>
+      <input id="rondas" type="number" min="1" max="10" value="5"></label>
+    <button class="boton" id="crear">Crear evento</button>
+    <p id="error-crear" class="aviso oculto"></p>
+  </section>
+
+  <section class="panel">
+    <h2>Los que existen</h2>
+    <table class="tabla">
+      <thead><tr>
+        <th>Evento</th><th>Estado</th><th>Repertorio</th><th>Personas</th>
+        <th>Elecciones</th><th>IA</th><th>Acciones</th>
+      </tr></thead>
+      <tbody id="filas"></tbody>
+    </table>
+  </section>
+
+  <!-- ═══ Spotify ═══ -->
+  <section class="panel" id="panel-spotify">
+    <h2>Spotify</h2>
+    <p class="ayuda" id="spotify-que-falta"></p>
+    <table class="tabla" id="spotify-estado"></table>
+    <p class="pie-boton">
+      <a class="boton" id="spotify-conectar" href="/api/admin/spotify/conectar">Conectar mi cuenta de Spotify</a>
+      <button class="boton suave" id="spotify-resolver" type="button">Buscar los temas en Spotify</button>
+      <button class="boton suave" id="spotify-sincronizar" type="button">Mandar lo elegido a la playlist</button>
+      <button class="boton" id="spotify-sonar" type="button">Sonar por votos</button>
+    </p>
+    <p id="spotify-resultado" class="aviso oculto"></p>
+    <p class="pie-boton">
+      <button class="boton suave" id="spotify-enlaces" type="button">Copiar la lista para pegar en Spotify</button>
+    </p>
+    <textarea id="spotify-uris" class="oculto" spellcheck="false" readonly></textarea>
+    <details>
+      <summary class="ayuda">Ver la cola</summary>
+      <table class="tabla" id="spotify-cola"></table>
+    </details>
+  </section>
+
+  <!-- ═══ los grupos que suenan sí o sí ═══ -->
+  <section class="panel">
+    <h2>Grupos que suenan sí o sí</h2>
+    <p class="ayuda">
+      Un grupo por línea. El sistema busca sus temas más conocidos y los deja
+      en el repertorio con prioridad: de cada cinco tarjetas,
+      <b id="cuantas-por-tanda">3</b> van a ser de estos grupos. Podés escribir
+      solo el nombre, o el nombre y una nota después de un guión.
+    </p>
+    <label class="campo"><span>Evento</span><select id="evento-grupos"></select></label>
+    <label class="campo"><span>Los grupos</span>
+      <textarea id="texto-grupos" spellcheck="false"
+        placeholder="Foo Fighters — rock alternativo&#10;Arctic Monkeys — indie rock&#10;The Strokes"></textarea></label>
+    <label class="campo"><span>Temas por grupo</span>
+      <input id="temas-por-grupo" type="number" min="1" max="20" value="8"></label>
+    <label class="campo"><span>Cuántas de las cinco tarjetas son de estos grupos</span>
+      <input id="por-tanda" type="number" min="0" max="5" value="3"></label>
+    <button class="boton" id="cargar-grupos">Buscar sus temas y cargarlos</button>
+    <button class="boton suave" id="ver-grupos" type="button">Ver los que hay</button>
+    <p id="resultado-grupos" class="aviso oculto"></p>
+  </section>
+
+  <section class="panel">
+    <h2>La playlist del evento</h2>
+    <p class="ayuda">
+      El enlace que ve la gente cuando el evento cierra. Por ahora se pega a
+      mano: publicar en Spotify desde acá necesita una app de Spotify y
+      autorizar la cuenta una vez.
+    </p>
+    <label class="campo"><span>Evento</span><select id="evento-playlist"></select></label>
+    <label class="campo"><span>Enlace de la playlist</span>
+      <input id="playlist" placeholder="https://open.spotify.com/playlist/…"></label>
+    <button class="boton" id="guardar-playlist">Guardar el enlace</button>
+    <p id="resultado-playlist" class="aviso oculto"></p>
+  </section>
+
+  <section class="panel">
+    <h2>Repertorio del evento</h2>
+    <p class="ayuda">
+      Una canción por línea, <b>Tema — Artista</b>. Esta lista es lo único que la
+      gente va a poder elegir. Mínimo 40 canciones: cinco rondas de cinco son 25
+      por persona, y la regla de un artista por tanda necesita margen.
+    </p>
+    <label class="campo"><span>Evento</span>
+      <select id="evento-repertorio"></select></label>
+    <label class="campo"><span>La lista</span>
+      <textarea id="texto-repertorio" spellcheck="false"
+        placeholder="De música ligera — Soda Stereo&#10;Cómo te voy a olvidar — Los Ángeles Azules&#10;Enter Sandman — Metallica"></textarea></label>
+    <button class="boton" id="cargar">Cargar repertorio</button>
+    <button class="boton suave" id="ver">Ver el que tiene</button>
+    <button class="boton suave" id="etiquetar">Etiquetar con IA</button>
+    <p class="ayuda">
+      <b>Etiquetar</b> completa género, década, idioma e intensidad de las
+      canciones que no las tengan. Corré esto <b>antes</b> de la fiesta: es lo
+      que le da al motor con qué leer el gusto del salón, y tarda.
+    </p>
+    <p id="resultado-repertorio" class="aviso oculto"></p>
+  </section>
+  <!-- ═══ inteligencia musical ═══ -->
+  <section class="panel">
+    <h2>Inteligencia musical</h2>
+    <p class="pie-boton">
+      <button class="boton suave" id="ver-inteligencia" type="button">Actualizar</button>
+      <button class="boton suave" id="job-py" type="button">Buscar lo que suena en Paraguay</button>
+      <button class="boton suave" id="job-generos" type="button">Buscar por géneros</button>
+      <button class="boton suave" id="job-refill" type="button">Rellenar el catálogo</button>
+    </p>
+    <div id="inteligencia"></div>
+  </section>
+</main>
+<script src="/estaticos/admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,64 @@
+# Identidad del proyecto. Validado contra 08-documentacion/project-schema.json
+slug: tinker
+nombre: Tinker — pedidos musicales por QR
+espacio: onda
+tipo: fullstack
+tier: T2
+status: activo
+dominio: tinker.onda.study
+publico: true
+datos_personales: false
+owner: rarguello
+creado: "2026-09-12"
+red: tinker_net
+en_proxy_net: true
+contenedores:
+  - tinker_web
+  - tinker_db
+datos: /srv/05-datos/onda/tinker
+backup: true
+healthcheck: /health
+repositorio: null
+notas: >-
+  La gente de un evento arma la musica desde su telefono JUGANDO: cinco tandas
+  de cinco canciones, toca una de cada tanda, y cada eleccion alimenta la
+  siguiente. Un QR fijo lleva a participante.html y pantalla.html --el televisor
+  del salon-- muestra en vivo lo que va entrando y el ranking. Al cerrar, el
+  MISMO QR pasa a mostrar la playlist.
+
+  SIN LOGIN Y SIN TECLADO, y esa es la decision de producto que ordena todo lo
+  demas: en una fiesta nadie se registra y nadie escribe. La identidad es un
+  UUID que genera el navegador y queda en localStorage. Sirve para dos cosas y
+  ninguna mas: recordarle a la persona lo que ya eligio, e impedir que la misma
+  canción se vote dos veces desde el mismo telefono.
+
+  datos_personales FALSE con la cuenta hecha: se guarda un identificador
+  seudonimo de dispositivo y las canciones que eligio. No se guarda nombre,
+  telefono, correo ni la direccion IP. El dia que se agregue "dejanos tu nombre
+  para el saludo", o se cruce el id con una lista de invitados, esto pasa a TRUE
+  y hay que escribir antes retencion y borrado.
+
+  EL REPERTORIO DEL EVENTO ES LA UNICA FUENTE. La lista curada que se pega en
+  /admin es lo unico que puede aparecer en una tarjeta; no hay catalogo general.
+  Minimo 40 canciones, validado al pegar: cinco rondas de cinco son 25 por
+  persona y la regla de un artista por tanda necesita margen. Un evento sin
+  repertorio no puede ponerse en vivo.
+
+  LAS TANDAS SE GUARDAN, y esa restriccion sostiene el diseño entero. El unique
+  (participante, ronda) hace que recargar la pagina no pierda nada, que el
+  prefetch no se dispare dos veces y que un telefono no pueda provocar mas de
+  cuatro llamadas al modelo en toda su vida --la ronda 1 es determinista--. No
+  es un contador que haya que reiniciar: es la forma de los datos.
+
+  IA CON CASCADA DE TRES (gemini, claude, openai), copiando el patron de focus,
+  y cada uno entra solo si tiene clave. Hoy son LAS MISMAS CLAVES QUE FOCUS:
+  rotarlas rompe los dos y el gasto se mezcla. Sin ninguna clave el juego se
+  juega igual, con las reglas deterministas. El modelo propone y Python impone
+  el contrato: exactamente cinco, sin repetir, un artista por tanda.
+
+  Un solo proceso uvicorn a proposito, igual que jau: el hub de WebSocket que
+  empuja cada eleccion al televisor vive en memoria. Mas de un worker exige
+  pub/sub externo y esta aislado en app/tiempo_real/.
+
+  Falta publicar la playlist en Spotify: el enlace se pega a mano en /admin.
+  Escribir en una playlist necesita una app de Spotify y autorizar la cuenta.

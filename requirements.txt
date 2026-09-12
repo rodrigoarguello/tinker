@@ -1,0 +1,11 @@
+fastapi==0.115.6
+uvicorn[standard]==0.34.0
+sqlalchemy==2.0.36
+psycopg[binary]==3.2.3
+alembic==1.14.0
+pydantic==2.10.4
+httpx==0.28.1
+segno==1.6.1
+# Solo para el adaptador de Claude. Gemini y OpenAI van por httpx crudo:
+# sus APIs son un POST y no justifican un SDK.
+anthropic==1.2.0

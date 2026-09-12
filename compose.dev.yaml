@@ -1,0 +1,78 @@
+# tinker — compose de DESARROLLO. Autocontenido a proposito.
+#
+# Levanta desde un clon limpio, en cualquier maquina con Docker, sin nada de
+# la infraestructura de /srv. En vivo manda compose.yaml, que hace justo lo
+# contrario: entra por el proxy, guarda en /srv/05-datos y no publica un solo
+# puerto. Los dos archivos conviven; este nunca se despliega.
+#
+#   cp .env.example .env        # y completar POSTGRES_PASSWORD
+#   docker compose -f compose.dev.yaml up --build
+#   → http://localhost:8000/docs
+
+name: tinker-dev
+
+services:
+  web:
+    build:
+      context: .
+      additional_contexts:
+        # La UNICA diferencia de build con produccion. Alla el token del
+        # sistema de diseno se lee de /srv/01-infra/diseno, que es la fuente
+        # de verdad; aca de la copia versionada en vendor/, que es lo que
+        # permite que el build funcione fuera de este servidor.
+        diseno: ./vendor/diseno
+    # Tag propio: NO pisar tinker:dev, que es la imagen que corre en vivo.
+    image: tinker:local
+    container_name: tinker_dev_web
+    # Igual que en produccion: las migraciones corren antes de uvicorn y en el
+    # mismo comando. Si fallan, el contenedor no arranca.
+    command: >
+      sh -c "alembic upgrade head &&
+             exec uvicorn app.main:app --host 0.0.0.0 --port 8000"
+    env_file: .env
+    environment:
+      # Se fija aca y no en .env para que la URL no pueda desincronizarse del
+      # servicio db de abajo. psycopg3 es el driver instalado: sin el sufijo
+      # +psycopg, SQLAlchemy busca psycopg2 y no arranca.
+      TINKER_BD: postgresql+psycopg://tinker_usuario:${POSTGRES_PASSWORD:?falta POSTGRES_PASSWORD en .env}@db:5432/tinker
+      # Swagger UI en /docs. Solo en desarrollo: en produccion queda apagado.
+      TINKER_DOCS: "si"
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request;urllib.request.urlopen('http://127.0.0.1:8000/health')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  db:
+    image: postgres:18-alpine
+    container_name: tinker_dev_db
+    environment:
+      POSTGRES_USER: tinker_usuario
+      POSTGRES_DB: tinker
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?falta POSTGRES_PASSWORD en .env}
+      POSTGRES_INITDB_ARGS: "--encoding=UTF8"
+    # Volumen con nombre, administrado por Docker: no toca /srv/05-datos ni
+    # depende de rutas del servidor. Se borra con `down -v`.
+    #
+    # El mount va en /var/lib/postgresql, NO en .../data: es lo que pide la
+    # imagen 18+, que guarda los datos en un subdirectorio por version para
+    # que pg_upgrade no cruce un punto de montaje. Produccion resuelve lo
+    # mismo al reves, con PGDATA en un subdirectorio, porque alla el volumen
+    # es un bind a /srv y las ACLs le dan permisos de grupo que PostgreSQL
+    # rechaza; con un volumen con nombre ese problema no existe.
+    volumes:
+      - tinker_dev_pgdata:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U tinker_usuario -d tinker"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  tinker_dev_pgdata:
