@@ -475,16 +475,22 @@ html[data-oscuro="1"] body::after {
 
 /* ═══════════════════════ EL TELEVISOR · la pantalla ═══════════════════════ */
 
+/* ALTO FIJO Y SIN SCROLL. Un televisor no se scrollea: lo que no entra, no
+   existe. `min-height` dejaba crecer la pagina y aparecia la barra --paso el
+   2026-09-12 al sumar la tarjeta de «sonando ahora» a la columna del QR--, con
+   la mitad de abajo de las dos columnas fuera de la vista y nadie en el salon
+   para arrastrarla. */
 .tele {
-  min-height:100vh;
-  display:grid; grid-template-columns:26rem 1fr;
-  gap:var(--esp, 2.5rem);
-  padding:2.5rem;
+  height:100vh; overflow:hidden;
+  display:grid; grid-template-columns:23rem 1fr;
+  gap:var(--esp, 2rem);
+  padding:1.8rem 2.2rem;
 }
 
 .columna-qr {
-  display:flex; flex-direction:column; gap:1.4rem;
-  align-items:center; justify-content:center; text-align:center;
+  display:flex; flex-direction:column; gap:1rem;
+  align-items:center; justify-content:flex-start; text-align:center;
+  min-height:0;
 }
 
 .marca-tele { display:flex; align-items:center; gap:12px; }
@@ -494,27 +500,32 @@ html[data-oscuro="1"] body::after {
   letter-spacing:.5px; margin:0;
 }
 
+/* Mas chico que las 19rem originales y sigue siendo de sobra: un QR de 15rem
+   en un televisor se escanea desde el fondo del salon, y las cuatro que se
+   ganan son las que hacen entrar la tarjeta de lo que suena. */
 .qr {
-  background:#fff; padding:1.1rem; border-radius:var(--radius-lg);
-  width:19rem; height:19rem; display:grid; place-items:center;
+  background:#fff; padding:.9rem; border-radius:var(--radius-lg);
+  width:15rem; height:15rem; display:grid; place-items:center;
   box-shadow:var(--d3-lg), 0 0 60px -10px rgba(46,123,230,.45);
   border:1px solid var(--borde-superficie);
 }
 .qr img { width:100%; height:100%; }
 
-.invitacion { font-size:20px; font-weight:600; margin:0; }
+.invitacion { font-size:18px; font-weight:600; margin:0; }
 .direccion {
   font-family:var(--font-display); font-weight:700;
   color:var(--accent-2); font-size:19px; margin:0;
   letter-spacing:-.2px;
 }
 
+/* Sin `padding-bottom` para la tarjeta que irrumpe: esa tarjeta se mudo
+   ARRIBA, sobre el titulo, que es texto fijo. Tapar el ranking en vivo para
+   anunciar una eleccion era pagar informacion con informacion; el titulo no
+   lo lee nadie dos veces. Las 9rem que reservaba son la mitad de lo que le
+   faltaba a esta columna para que entrara todo. */
 .escena {
-  display:flex; flex-direction:column; gap:1.6rem; min-width:0;
-  justify-content:center;
-  /* El lugar de la tarjeta que irrumpe. Sin esto tapaba las ultimas filas del
-     ranking justo cuando alguien las estaba mirando. */
-  padding-bottom:9rem;
+  display:flex; flex-direction:column; gap:1.1rem; min-width:0; min-height:0;
+  justify-content:flex-start; overflow:hidden;
 }
 
 .escena header h2 {
@@ -522,7 +533,23 @@ html[data-oscuro="1"] body::after {
   font-size:clamp(30px, 3.6vw, 46px); font-weight:800;
   letter-spacing:-1px; line-height:1.1; margin:0;
 }
-.escena .lugar { color:var(--muted); font-size:20px; margin:.4rem 0 0; }
+.escena .lugar { color:var(--muted); font-size:18px; margin:.3rem 0 0; }
+
+/* Las dos columnas de la parte viva. El ranking manda --es lo que la gente
+   busca-- y al lado van los artistas y el cerebro, que son mas bajos y juntos
+   llenan el alto que antes quedaba negro. */
+.tablero {
+  display:grid; grid-template-columns:1.45fr 1fr; gap:1.4rem;
+  min-height:0; flex:1;
+}
+.lateral { display:flex; flex-direction:column; gap:1.2rem; min-height:0; }
+.bloque { display:flex; flex-direction:column; gap:.7rem; min-height:0; }
+.bloque .top { overflow:hidden; }
+
+/* La lista de al lado, mas apretada: son cinco nombres de artista, no fichas.
+   Sin esto el ranking y los artistas pelean el mismo alto y gana el ruido. */
+.top.compacto li { padding:.45rem .9rem; font-size:clamp(14px, 1.05vw, 17px); }
+.top.compacto li .disco { width:30px; height:30px; font-size:13px; }
 
 .cifras { display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; }
 .cifra {
@@ -530,7 +557,9 @@ html[data-oscuro="1"] body::after {
   border:1px solid var(--borde-superficie);
   border-radius:var(--radius);
   box-shadow:var(--d3-sm);
-  padding:1.3rem; text-align:center;
+  /* Mas baja que la original de 1.3rem: las tres cifras son contexto, no la
+     noticia, y cada pixel que dejan de ocupar es una fila mas de ranking. */
+  padding:.7rem 1rem; text-align:center;
 }
 .cifra b {
   display:block; font-family:var(--font-display);
@@ -557,15 +586,15 @@ html[data-oscuro="1"] body::after {
   border:1px solid var(--borde-superficie);
   border-radius:var(--radius-sm);
   box-shadow:var(--d3-sm);
-  padding:.7rem 1.1rem;
-  font-size:clamp(16px, 1.5vw, 21px);
+  padding:.55rem 1rem;
+  font-size:clamp(15px, 1.3vw, 19px);
   transition:transform .3s var(--ease);
 }
 .top li .puesto {
   font-family:var(--font-display); font-weight:800;
   color:var(--accent-2); font-variant-numeric:tabular-nums;
 }
-.top li .disco { width:42px; height:42px; font-size:17px; }
+.top li .disco { width:36px; height:36px; font-size:15px; }
 .top li .que { min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
 .top li .quien { color:var(--muted); font-size:.78em; }
 .top li .votos {
@@ -654,7 +683,7 @@ html[data-oscuro="1"] body::after {
 .sonando .siguen .que b { color:var(--ink); font-weight:600; }
 
 .boton-parlante {
-  width:100%; margin-top:.9rem;
+  width:100%; margin-top:.9rem; text-decoration:none;
   display:flex; align-items:center; justify-content:center; gap:.5rem;
   background:var(--accent); color:#fff; border:0;
   border-radius:var(--radius-sm); padding:.7rem 1rem;
@@ -679,16 +708,20 @@ html[data-oscuro="1"] body::after {
 
 /* La tarjeta que irrumpe cuando alguien elige. Es el corazon del televisor:
    si esto no se nota desde el fondo del salon, no sirve. */
+/* ENTRA DESDE ARRIBA, no desde abajo. Abajo tapaba las ultimas filas del
+   ranking --datos en vivo-- y obligaba a reservarle 9rem que la columna no
+   tenia. Arriba cae sobre el titulo del evento, que es texto fijo: se puede
+   tapar cuatro segundos sin que nadie pierda nada. */
 .irrumpe {
-  position:fixed; inset:auto 0 2.5rem 0;
+  position:fixed; inset:1.2rem 0 auto 0;
   display:grid; place-items:center; pointer-events:none; z-index:20;
 }
 .tarjeta-viva {
   background:var(--blue-orb); color:#fff;
   border-radius:var(--radius-lg);
-  padding:1.6rem 3rem; text-align:center; max-width:80vw;
+  padding:1.2rem 2.4rem; text-align:center; max-width:70vw;
   box-shadow:0 40px 80px -20px rgba(14,63,151,.85), inset 0 2px 2px rgba(255,255,255,.4);
-  transform:translateY(150%);
+  transform:translateY(-160%);
   transition:transform .7s var(--ease);
 }
 .tarjeta-viva.entra { transform:translateY(0); }
@@ -698,7 +731,7 @@ html[data-oscuro="1"] body::after {
 }
 .tarjeta-viva .cancion {
   font-family:var(--font-display);
-  font-size:clamp(30px, 4vw, 52px); font-weight:800;
+  font-size:clamp(26px, 3.2vw, 42px); font-weight:800;
   letter-spacing:-1px; line-height:1.1; margin:.7rem 0 .3rem;
 }
 .tarjeta-viva .artista { font-size:clamp(17px, 1.8vw, 24px); opacity:.9; margin:0; }
@@ -722,9 +755,14 @@ html[data-oscuro="1"] body::after {
 .pulso.frio { background:#e5484d; animation:none; }
 
 @media (max-width:64rem) {
-  .tele { grid-template-columns:1fr; padding:1.5rem; }
+  /* En una pantalla angosta esto ya no es un televisor: es alguien mirando
+     desde una laptop o un telefono. Ahi el scroll SI es la respuesta correcta,
+     y el tablero vuelve a una sola columna. */
+  .tele { grid-template-columns:1fr; padding:1.5rem; height:auto; overflow:visible; }
   .qr { width:13rem; height:13rem; }
   .cifra b { font-size:30px; }
+  .tablero { grid-template-columns:1fr; }
+  .escena { overflow:visible; }
 }
 
 /* ═══════════════════════ /admin · sobrio a proposito ═══════════════════════ */

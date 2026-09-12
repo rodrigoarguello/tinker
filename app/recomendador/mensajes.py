@@ -73,6 +73,15 @@ def _nombrar(genero: str) -> str:
     return COMO_SE_DICE.get(genero, genero.capitalize())
 
 
+def _empezando(texto: str) -> str:
+    """Con mayuscula inicial, sin tocar el resto.
+
+    `capitalize()` no sirve: "La electrónica" se convertiria en "La
+    electrónica" pero "Los 80 y 90" en "Los 80 y 90" y "RHCP" en "Rhcp".
+    """
+    return texto[:1].upper() + texto[1:] if texto else texto
+
+
 def _elegir(opciones, semilla: int) -> str:
     """Una de las variantes, estable por dispositivo y ronda.
 
@@ -97,7 +106,9 @@ def para(ronda: int, perfil: PerfilPublico, semilla: int = 0) -> str:
     if perfil.elecciones >= 4 and perfil.generos:
         dominante = perfil.dominantes[0]
         if perfil.generos.get(dominante, 0) >= 0.6:
-            return f"{_nombrar(dominante)} está creciendo entre las elecciones."[:TOPE]
+            return _empezando(
+                f"{_nombrar(dominante)} está creciendo entre las elecciones."
+            )[:TOPE]
 
     if perfil.energia is not None and perfil.energia >= 0.65:
         return "La energía del salón está subiendo."

@@ -46,15 +46,27 @@
       <button class="boton-parlante oculto" id="parlante" type="button">
         <span class="triangulo"></span> Sonar en esta pantalla
       </button>
+      <!-- Se abre en otra pestaña para no tirar abajo la pantalla del salón, y
+           al volver el foco se reintenta solo: nadie tiene que recargar el
+           televisor en medio de una fiesta. -->
+      <a class="boton-parlante oculto" id="conectar-parlante"
+         href="/api/admin/spotify/conectar" target="_blank" rel="noopener">
+        <span class="triangulo"></span> Conectar Spotify para sonar acá
+      </a>
       <p class="nota-parlante oculto" id="nota-parlante"></p>
     </div>
   </aside>
 
-  <!-- Derecha: la parte viva. -->
+  <!-- Derecha: la parte viva. TODO a la vista al mismo tiempo.
+       Antes rotaba entre tres escenas cada catorce segundos, y en una fiesta
+       eso significa que quien levanta la vista tres segundos ve una de tres
+       cosas al azar. Ademas el ranking desbordaba la pantalla mientras la
+       escena del cerebro dejaba media columna negra: una sobraba y la otra no
+       entraba, en el mismo espacio. -->
   <section class="escena">
     <header>
       <h2 id="nombre-evento">…</h2>
-      <p class="lugar" id="lugar"></p>
+      <p class="lugar oculto" id="lugar"></p>
     </header>
 
     <div class="cifras">
@@ -63,34 +75,38 @@
       <div class="cifra"><b id="c-canciones">0</b><span>canciones</span></div>
     </div>
 
-    <div id="escena-top">
-      <h3><span class="eq"><i></i><i></i><i></i><i></i></span> Las más elegidas</h3>
-      <ol class="top" id="top"></ol>
-    </div>
+    <div class="tablero">
+      <div class="bloque" id="escena-top">
+        <h3><span class="eq"><i></i><i></i><i></i><i></i></span> Las más elegidas</h3>
+        <ol class="top" id="top"></ol>
+      </div>
 
-    <div id="escena-artistas" class="oculto">
-      <h3><span class="eq"><i></i><i></i><i></i><i></i></span> Los artistas de la noche</h3>
-      <ol class="top" id="artistas"></ol>
-    </div>
+      <div class="lateral">
+        <div class="bloque" id="escena-artistas">
+          <h3><span class="eq"><i></i><i></i><i></i><i></i></span> Los artistas de la noche</h3>
+          <ol class="top compacto" id="artistas"></ol>
+        </div>
 
-    <!-- El agente, hecho visible. Todo lo demás de esta pantalla cuenta lo que
-         la gente eligió; esto cuenta lo que el sistema ENTENDIÓ de eso, que es
-         lo único que no se puede ver de ninguna otra forma. -->
-    <div id="escena-cerebro" class="oculto">
-      <h3><span class="eq"><i></i><i></i><i></i><i></i></span> Lo que está entendiendo</h3>
-      <div class="cerebro">
-        <div class="generos" id="cerebro-generos"></div>
-        <div class="medidores">
-          <div class="medidor">
-            <span class="rotulo-medidor">Energía del salón</span>
-            <div class="riel"><i id="cerebro-energia"></i></div>
-          </div>
-          <div class="medidor">
-            <span class="rotulo-medidor">Qué tan conocido</span>
-            <div class="riel"><i id="cerebro-mainstream"></i></div>
+        <!-- El agente, hecho visible. Todo lo demás de esta pantalla cuenta lo
+             que la gente eligió; esto cuenta lo que el sistema ENTENDIÓ de eso,
+             que es lo único que no se puede ver de ninguna otra forma. -->
+        <div class="bloque" id="escena-cerebro">
+          <h3><span class="eq"><i></i><i></i><i></i><i></i></span> Lo que está entendiendo</h3>
+          <div class="cerebro">
+            <div class="generos" id="cerebro-generos"></div>
+            <div class="medidores">
+              <div class="medidor">
+                <span class="rotulo-medidor">Energía del salón</span>
+                <div class="riel"><i id="cerebro-energia"></i></div>
+              </div>
+              <div class="medidor">
+                <span class="rotulo-medidor">Qué tan conocido</span>
+                <div class="riel"><i id="cerebro-mainstream"></i></div>
+              </div>
+            </div>
+            <p class="aprendido" id="cerebro-aprendido">Esperando las primeras elecciones…</p>
           </div>
         </div>
-        <p class="aprendido" id="cerebro-aprendido">Esperando las primeras elecciones…</p>
       </div>
     </div>
   </section>

@@ -53,15 +53,27 @@ evento terminó.
 ## Las dos páginas
 
 **`participante.html`** — el teléfono. Cinco tarjetas grandes por ronda; se
-toca una. Arriba, fijo: las elegidas en carrusel (se pueden quitar) y el
-progreso `● ● ● ○ ○`. A las cinco, la pantalla de cierre con lo elegido, el
-top del evento y el enlace a la playlist. Cuando el evento cierra, esta misma
-página pasa sola a la playlist: el WebSocket avisa, nadie recarga nada.
+tocan **todas las que gusten** y la tanda cambia cuando la persona lo pide
+(«Otras cinco»), porque de cinco tarjetas te pueden gustar tres. Arriba, fijo:
+las elegidas en carrusel (se pueden quitar), el progreso `● ● ● ○ ○` y **la
+línea del agente** — una oración por tanda diciendo qué está pasando en el
+salón. Abajo, una barra fija con «Otras cinco» y «Ninguna», y un buscador de
+grupos plegable. A las cinco, la pantalla de cierre con lo elegido y el top del
+evento. Cuando el evento cierra, esta misma página pasa sola a la playlist: el
+WebSocket avisa, nadie recarga nada.
 
-**`pantalla.html`** — el televisor. A la izquierda, lo único inmóvil: el QR y
-la dirección escrita. A la derecha, lo vivo: cifras, las más elegidas, los
-artistas de la noche, y la tarjeta que irrumpe desde abajo cada vez que
-alguien elige. Alterna entre las dos listas cada catorce segundos.
+**`pantalla.html`** — el televisor. **Alto fijo, sin scroll y sin carrusel**:
+lo que no entra no existe, y nada se esconde. A la izquierda, la columna quieta:
+el QR, la dirección escrita y —abajo— **lo que está sonando ahora** con los
+votos que lo pusieron ahí y las tres que siguen. A la derecha, el tablero: las
+cifras en una tira, las más elegidas en la columna ancha, y al lado los artistas
+de la noche sobre el perfil del salón. La tarjeta de cada elección **cae desde
+arriba**, sobre el título —que es texto fijo— y no sobre el ranking en vivo.
+
+La rotación de tres escenas cada catorce segundos se fue el 2026-09-12: en una
+fiesta quien levanta la vista tres segundos veía una de tres cosas al azar, y el
+reparto era malo —el ranking desbordaba la pantalla mientras la escena del
+perfil dejaba media columna negra—.
 
 Hay una tercera página, `/admin`, y es la única detrás de Authelia.
 
@@ -183,16 +195,18 @@ cuesta un evento, darle a tinker las suyas.
 
 ## Lo que falta
 
-- **Publicar en Spotify.** El enlace de la playlist se pega a mano en `/admin`.
-  Escribir en ella desde el servidor necesita una app de Spotify
-  (`CLIENT_ID` + `SECRET`) y autorizar la cuenta una vez: buscar es anónimo,
-  publicar se hace en nombre de una persona.
-- **Etiquetar el repertorio con el modelo** (`/repertorio/etiquetar`): hoy las
-  canciones curadas entran sin género y la diversidad de la ronda 1 se apoya
-  solo en el artista. Es la llamada más barata del sistema —una vez por evento,
-  sin nadie esperando— y mejora todas las tandas de la noche.
+- **La playlist de Spotify.** Lo elegido entra a la **cola de reproducción**,
+  que es lo que sí se puede: los endpoints de *playlist* contestan 403 a las
+  apps en modo Development. Escribir en la playlist necesita la extensión de
+  cuota, que es un formulario y una espera.
+- **`popularity` de Spotify**: tampoco viene en modo Development —se verificó
+  contra la API, la clave ni aparece en el objeto— así que el término de
+  mainstream del puntaje colectivo se reparte entre los otros. La fecha de
+  publicación sí viene, y de ahí sale la década de verdad.
 - **Moderación**: nadie puede escribir texto libre, pero tampoco hay forma de
   bajar una canción del repertorio en caliente.
+- **Medir los pesos en varias fiestas.** Los de `config.py` son un punto de
+  partida honesto, no una verdad: la fórmula correcta no se deduce, se mide.
 
 ---
 
@@ -201,18 +215,27 @@ cuesta un evento, darle a tinker las suyas.
 ```text
 app/
   main.py               las páginas, /health, el WebSocket y la semilla
-  modelos.py            las ocho tablas, con el porqué de cada restricción
-  panorama.py           lo que ve el televisor
-  api/publico.py        entrar · tanda · elegir · elegidas · panorama · qr
-  api/admin.py          eventos, repertorio y resultado
+  modelos.py            las tablas, con el porqué de cada restricción
+  config.py             las perillas: pesos, ventanas y cuotas, por entorno
+  panorama.py           lo que ve el televisor, incluido el perfil del salón
+  api/publico.py        entrar · tanda · elegir · avanzar · rechazar · seguir
+                        grupo · elegir-buscada · panorama · qr · callback
+  api/admin.py          eventos, repertorio, etiquetar, grupos, spotify, jobs
   recomendador/
     pozo.py             de dónde salen las candidatas
-    reglas.py           EL CONTRATO: imponer() y la precedencia
+    publico.py          EL GUSTO DEL SALÓN, ponderado por tiempo y por acuerdo
+    reglas.py           EL CONTRATO: imponer(), las ranuras y la precedencia
+    mensajes.py         la línea que el agente dice en voz alta
     modelo.py           la cascada gemini → claude → openai
+    etiquetador.py      género, década, idioma e intensidad, en frío
     tandas.py           lo único que escribe tandas
     prefetch.py         el obrero de fondo, atado al bucle en el arranque
-  catalogo/             local (semilla), spotify y resolver()
+  catalogo/             local (semilla), spotify, enriquecer() y resolver()
+  descubrimiento/       Apple RSS y Deezer: el catálogo global se llena solo
+  spotify/              cliente, cola de reproducción y reintentos
+  jobs/                 métricas, perfil, rotación y descubrimiento
+  tiempo_real/          el hub del WebSocket, en memoria
   estaticos/            las páginas, tinker.css y las tipografías propias
-pruebas/                las reglas, el contrato puro y la cascada sin gastar
-docs/                   el diseño pantalla por pantalla
+pruebas/                100 pruebas, cero llamadas a APIs externas
+docs/                   pantalla por pantalla · el agente colectivo
 ```

@@ -18,13 +18,21 @@ contenedores:
 datos: /srv/05-datos/onda/tinker
 backup: true
 healthcheck: /health
-repositorio: null
+repositorio: https://github.com/rodrigoarguello/tinker
 notas: >-
   La gente de un evento arma la musica desde su telefono JUGANDO: cinco tandas
-  de cinco canciones, toca una de cada tanda, y cada eleccion alimenta la
+  de cinco canciones, se marcan las que gusten, y cada eleccion alimenta la
   siguiente. Un QR fijo lleva a participante.html y pantalla.html --el televisor
-  del salon-- muestra en vivo lo que va entrando y el ranking. Al cerrar, el
-  MISMO QR pasa a mostrar la playlist.
+  del salon-- muestra en vivo lo que va entrando, el ranking y EL PERFIL DEL
+  SALON moviendose. Al cerrar, el MISMO QR pasa a mostrar la playlist.
+
+  UN AGENTE COLECTIVO, no un recomendador individual: cada eleccion entra a un
+  perfil ponderado del gusto del salon --lo reciente pesa mas, con vida media de
+  veinte minutos; lo que eligieron varios pesa mas, 1+log2(n)-- y ese perfil
+  cambia las cartas que ve la persona SIGUIENTE. De cada cinco tarjetas, tres
+  siguen el gusto detectado y dos nunca salen de los generos dominantes: es lo
+  que impide que una fiesta se encierre en un solo sonido. El detalle completo
+  esta en docs/02-el-agente-colectivo.md.
 
   SIN LOGIN Y SIN TECLADO, y esa es la decision de producto que ordena todo lo
   demas: en una fiesta nadie se registra y nadie escribe. La identidad es un

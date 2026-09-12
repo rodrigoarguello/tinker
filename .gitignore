@@ -216,7 +216,8 @@ __marimo__/
 
 # Docker
 docker-compose.override.yml
-.dockerignore
+# .dockerignore SI va al repositorio: define el contexto de build.
+!.dockerignore
 
 # Database
 *.db

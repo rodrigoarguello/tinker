@@ -1,5 +1,13 @@
 # Pantalla por pantalla
 
+> **Nota de actualización.** Buena parte de este documento describe la primera
+> versión del teléfono, cuando se tocaba UNA tarjeta por ronda y las otras
+> cuatro se iban en cascada. Desde la fase 4 se pueden marcar varias de cada
+> tanda y la tanda cambia cuando la persona lo pide; desde la fase 6 el
+> encabezado lleva la línea del agente y la pantalla del salón tiene una tercera
+> escena, «Lo que está entendiendo». Lo que sigue vale como intención de diseño;
+> el comportamiento vigente está en `02-el-agente-colectivo.md` y en el código.
+
 Lo que contiene cada interfaz y por qué. Escrito después de construirlas, con
 lo que se aprendió construyéndolas: donde el diseño original y lo que quedó no
 coinciden, se dice cuál ganó.

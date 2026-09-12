@@ -45,9 +45,11 @@
     }
   };
 
-  // Ocho y no diez: con la tarjeta que irrumpe abajo, las dos ultimas filas
-  // quedaban tapadas justo cuando el salon las mira.
-  const TOPE_TOP = 8;
+  // Nueve. Ocho eran las que entraban cuando la tarjeta que irrumpe se comía
+  // 9rem abajo; ahora esa tarjeta cae desde arriba y la columna las recuperó.
+  // No diez: en un monitor de 900px de alto la décima queda cortada, y una
+  // fila cortada se ve peor que una fila que no está.
+  const TOPE_TOP = 9;
 
   $('qr').src = `/api/e/${slug}/qr.svg`;
   $('direccion').textContent = `${location.host}/${slug}`;
@@ -166,8 +168,12 @@
       // una persona volviendo a conectar la cuenta.
       const detalle = datos.error.detail || datos.error;
       if (detalle && detalle.error === 'faltan_permisos') {
+        // El 409 sólo llega a quien YA tiene sesión --sin ella el proxy corta
+        // con 401 y acá no se entera nadie--, así que a esta persona se le
+        // puede ofrecer el botón directo en vez de mandarla a buscarlo.
         $('caja-sonando').classList.remove('oculto');
-        nota('Para que suene desde acá hay que volver a conectar Spotify en /admin: la cuenta se autorizó sin el permiso de reproducción.');
+        $('conectar-parlante').classList.remove('oculto');
+        nota('La cuenta se autorizó antes de que existiera el permiso de reproducción. Autorizala de nuevo y esta pantalla se vuelve el parlante.');
       }
       return;
     }
@@ -185,6 +191,7 @@
       reproductor.addListener('ready', ({ device_id }) => {
         dispositivo = device_id;
         $('caja-sonando').classList.remove('oculto');
+        $('conectar-parlante').classList.add('oculto');
         $('parlante').classList.remove('oculto');
         nota('');
       });
@@ -296,7 +303,13 @@
 
   const pintarTodo = (datos) => {
     $('nombre-evento').textContent = datos.evento.nombre;
-    $('lugar').textContent = datos.evento.lugar || '';
+    // El lugar solo si el título no lo dice ya. «IA, ¿Tín que querés? — San
+    // Lorenzo» con «San Lorenzo» debajo es la misma palabra dos veces y una
+    // línea de alto regalada.
+    const lugar = datos.evento.lugar || '';
+    const repetido = lugar && datos.evento.nombre.toLowerCase().includes(lugar.toLowerCase());
+    $('lugar').textContent = lugar;
+    $('lugar').classList.toggle('oculto', !lugar || repetido);
     document.title = `${datos.evento.nombre} · pantalla`;
     pintarTotales(datos.totales);
     pintarTop(datos.ranking.slice(0, TOPE_TOP));
@@ -338,15 +351,12 @@
     siguiente();
   };
 
-  /* ── rotación de escenas ──────────────────────────────────────────── */
-
-  let escena = 0;
-  setInterval(() => {
-    escena = (escena + 1) % 3;
-    $('escena-top').classList.toggle('oculto', escena !== 0);
-    $('escena-artistas').classList.toggle('oculto', escena !== 1);
-    $('escena-cerebro').classList.toggle('oculto', escena !== 2);
-  }, 14000);
+  /* Acá vivía la rotación de escenas: cada catorce segundos mostraba una de
+   * tres y escondía las otras dos. Se fue el 2026-09-12. En una fiesta nadie
+   * espera un carrusel --quien levanta la vista tres segundos veía una de tres
+   * cosas al azar-- y encima el reparto era malo: el ranking desbordaba la
+   * pantalla mientras la escena del cerebro dejaba media columna negra. Ahora
+   * las tres conviven en el tablero y no se esconde nada. */
 
   /* ── datos ────────────────────────────────────────────────────────── */
 
@@ -397,5 +407,14 @@
   traerPanorama().catch(() => {});
   traerSonando().catch(() => {});
   prepararParlante().catch(() => {});
+
+  // Al volver de autorizar Spotify en la otra pestaña, se reintenta solo. Sin
+  // esto habría que recargar el televisor a mano, que es exactamente lo que
+  // esta pantalla no puede pedirle a nadie.
+  window.addEventListener('focus', () => {
+    if (reproductor || dispositivo) return;
+    prepararParlante().catch(() => {});
+  });
+
   conectar();
 })();

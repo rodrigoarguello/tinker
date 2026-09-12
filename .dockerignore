@@ -1,0 +1,11 @@
+.env
+.git
+.gitignore
+__pycache__/
+*.pyc
+.pytest_cache/
+pruebas/
+docs/
+deploy/
+LEEME.md
+PROJECT.yml
